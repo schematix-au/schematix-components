@@ -15,7 +15,7 @@ const props = defineProps<{
 }>()
 const dialog = ref(false)
 
-const displayUrl = `${import.meta.env.VITE_AWS_URL}${props.item.displayImage}`
+const displayUrl = `${import.meta.env.VITE_AWS_URL}${props.item.imgKeys[0]}`
 </script>
 <template>
   <v-card

@@ -1,6 +1,6 @@
 {
   "name": "schematix-custom-page",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "private": false,
   "type": "module",
   "main": "./dist/schematix-custom-pages.umd.cjs",

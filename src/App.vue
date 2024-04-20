@@ -15,7 +15,7 @@ const navLinks: {
 
 <template>
   <SchematixCustomPage
-    :userId="1"
+    :organisationId="1"
     :logo="logo"
     title="Site Title"
     email="dyl@yourwebspace.com.au"

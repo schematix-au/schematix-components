@@ -5,10 +5,8 @@ const props = defineProps<{
   item: Floorplan
   close: () => void
 }>()
-const displayImage = `${import.meta.env.VITE_AWS_URL}${props.item.displayImage}`
-const informalUrl = `${import.meta.env.VITE_AWS_URL}${props.item.informalImage}`
-const siteUrl = `${import.meta.env.VITE_AWS_URL}${props.item.siteImage}`
-const techUrl = `${import.meta.env.VITE_AWS_URL}${props.item.techImage}`
+const displayImage = `${import.meta.env.VITE_AWS_URL}${props.item.imgKeys[0]}`
+const keys = props.item.imgKeys.slice(1).map((key) => `${import.meta.env.VITE_AWS_URL}${key}`)
 </script>
 
 <template>
@@ -50,9 +48,7 @@ const techUrl = `${import.meta.env.VITE_AWS_URL}${props.item.techImage}`
     <v-divider class="mx-5"></v-divider>
     <v-card-text>
       <v-carousel :height="xs ? '250' : '400'" hide-delimiter-background show-arrows="hover">
-        <v-carousel-item :src="informalUrl"></v-carousel-item>
-        <v-carousel-item :src="siteUrl"></v-carousel-item>
-        <v-carousel-item :src="techUrl"></v-carousel-item>
+        <v-carousel-item v-for="key in keys" :key="key" :src="key"></v-carousel-item>
       </v-carousel>
     </v-card-text>
     <v-card-text>

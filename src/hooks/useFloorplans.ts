@@ -8,7 +8,7 @@
 // const refreshFloorplans = async () => {
 //   try {
 //     const payload = {
-//       userId: floorplansStore.userId || undefined,
+//       organisationId: floorplansStore.organisationId || undefined,
 //       floorplanTypeId: floorplansStore.floorplanTypeId || undefined,
 //       bedrooms: floorplansStore.bedrooms || undefined,
 //       bathrooms: floorplansStore.bathrooms || undefined,
@@ -37,7 +37,7 @@ import type { Ref } from 'vue'
 // const floorplansStore = useFloorplansStore()
 
 interface RequestBody {
-  userId: number
+  organisationId: number
   floorplanTypeId?: number
   bedrooms?: number
   bathrooms?: number
@@ -63,7 +63,7 @@ const refreshFloorplans = async (payload: Ref<RequestBody>) => {
   try {
     console.log(payload.value)
     const body = {
-      userId: payload.value.userId,
+      organisationId: payload.value.organisationId,
       floorplanTypeId: payload.value.floorplanTypeId,
       bedrooms: payload.value.bedrooms,
       bathrooms: payload.value.bathrooms,

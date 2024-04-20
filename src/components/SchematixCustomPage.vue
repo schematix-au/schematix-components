@@ -8,7 +8,7 @@ import { useFloorplans } from '../hooks/useFloorplans'
 import { useFloorplanTypes } from '../hooks/useFloorplanTypes'
 
 interface Props {
-  userId: number
+  organisationId: number
   title: string
   email?: string
   phone?: string
@@ -64,7 +64,7 @@ const front = ref(false)
 const back = ref(false)
 
 const floorplanProps = ref({
-  userId: props.userId,
+  organisationId: props.organisationId,
   floorplanTypeId: floorplanTypeId.value,
   bedrooms: bedrooms.value,
   bathrooms: bathrooms.value,
@@ -98,7 +98,7 @@ watch(
   ],
   () => {
     floorplanProps.value = {
-      userId: props.userId,
+      organisationId: props.organisationId,
       floorplanTypeId: floorplanTypeId.value || undefined,
       bedrooms: bedrooms.value || undefined,
       bathrooms: bathrooms.value || undefined,

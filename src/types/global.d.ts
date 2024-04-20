@@ -29,10 +29,7 @@ declare type NewFloorplan = {
   bathrooms: number
   bedrooms: number
   garages: number
-  displayImage: string
-  informalImage: string
-  siteImage: string
-  techImage: string
+  imgKeys: string[]
   premium: boolean
   masterPosRear: boolean
   floorplanTypeId: number
