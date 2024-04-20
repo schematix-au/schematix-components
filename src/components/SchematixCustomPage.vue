@@ -1,0 +1,270 @@
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { useDisplay } from 'vuetify'
+import FloorplanFilters from './FloorplanFilters.vue'
+import FloorplanCard from './FloorplanCard.vue'
+
+import { useFloorplans } from '../hooks/useFloorplans'
+import { useFloorplanTypes } from '../hooks/useFloorplanTypes'
+
+interface Props {
+  userId: number
+  title: string
+  email?: string
+  phone?: string
+  darkMode: boolean
+  navBarDarkMode?: boolean
+  footerDarkMode?: boolean
+  logo?: string
+  openDefault?: number
+  cardRounded: string
+  cardElevation: number
+  cardTransparent: boolean
+  textFieldRounded: string
+  textFieldVariant?: TextFieldVariant
+  navElevation: number
+  navDensity?: NavDesity
+  filterElevation?: number
+
+  navLinks?: {
+    text: string
+    link: string
+    color?: string
+    variant?: BtnVariant
+  }[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  navDensity: 'default'
+  // navLinks: []
+})
+
+interface OrderBy {
+  id: number
+  name: string
+  orderBy: string
+  direction: string
+}
+
+const floorplanTypeId = ref<number>()
+const bedrooms = ref<number>()
+const bathrooms = ref<number>()
+const garages = ref<number>()
+const orderBy = ref<OrderBy>()
+
+const minSize = ref<number>()
+const maxSize = ref<number>()
+const minWidth = ref<number>()
+const maxWidth = ref<number>()
+const minLength = ref<number>()
+const maxLength = ref<number>()
+
+const masterPosRear = ref<boolean>()
+const front = ref(false)
+const back = ref(false)
+
+const floorplanProps = ref({
+  userId: props.userId,
+  floorplanTypeId: floorplanTypeId.value,
+  bedrooms: bedrooms.value,
+  bathrooms: bathrooms.value,
+  garages: garages.value,
+  orderBy: orderBy.value
+    ? { orderBy: orderBy.value.orderBy, direction: orderBy.value.direction }
+    : undefined,
+  minSize: minSize.value,
+  maxSize: maxSize.value,
+  minWidth: minWidth.value,
+  maxWidth: maxWidth.value,
+  minLength: minLength.value,
+  maxLength: maxLength.value,
+  masterPosRear: masterPosRear.value
+})
+
+watch(
+  [
+    floorplanTypeId,
+    bedrooms,
+    bathrooms,
+    garages,
+    orderBy,
+    minSize,
+    maxSize,
+    minWidth,
+    maxWidth,
+    minLength,
+    maxLength,
+    masterPosRear
+  ],
+  () => {
+    floorplanProps.value = {
+      userId: props.userId,
+      floorplanTypeId: floorplanTypeId.value || undefined,
+      bedrooms: bedrooms.value || undefined,
+      bathrooms: bathrooms.value || undefined,
+      garages: garages.value || undefined,
+      orderBy: orderBy.value
+        ? { orderBy: orderBy.value.orderBy, direction: orderBy.value.direction }
+        : undefined,
+      minSize: minSize.value || undefined,
+      maxSize: maxSize.value || undefined,
+      minWidth: minWidth.value || undefined,
+      maxWidth: maxWidth.value || undefined,
+      minLength: minLength.value || undefined,
+      maxLength: maxLength.value || undefined,
+      masterPosRear: masterPosRear.value
+    }
+  }
+)
+
+const { mdAndUp } = useDisplay()
+
+const drawer = ref(false)
+
+const [floorplans] = useFloorplans(floorplanProps)
+const [floorplanTypes] = useFloorplanTypes()
+
+const theme = computed(() => (props.darkMode ? 'customDarkTheme' : 'customLightTheme'))
+const navbarTheme = computed(() => {
+  console.log(props.navBarDarkMode)
+  if (props.navBarDarkMode === undefined) return theme.value
+  return props.navBarDarkMode ? 'customDarkTheme' : 'customLightTheme'
+})
+const footerTheme = computed(() => {
+  if (props.footerDarkMode === undefined) return theme.value
+  return props.footerDarkMode ? 'customDarkTheme' : 'customLightTheme'
+})
+
+const onClickFront = () => {
+  if (!front.value) masterPosRear.value = false
+  else masterPosRear.value = undefined
+  back.value = false
+}
+const onClickBack = () => {
+  if (!back.value) masterPosRear.value = true
+  else masterPosRear.value = undefined
+  front.value = false
+}
+</script>
+
+<template>
+  <v-theme-provider :theme="theme" with-background>
+    <v-app>
+      <v-app-bar :elevation="navElevation" :density="navDensity" :theme="navbarTheme">
+        <template v-slot:prepend v-if="logo || !mdAndUp">
+          <v-img v-if="logo" :src="logo" alt="Schematix logo" style="height: 40px; width: 40px" />
+        </template>
+        <v-app-bar-title class="font-weight-light d-flex">
+          {{ title }}
+        </v-app-bar-title>
+
+        <template v-slot:append>
+          <div v-if="navLinks?.length && mdAndUp">
+            <v-btn
+              v-for="(link, i) in navLinks"
+              :key="link.text"
+              @click="() => {}"
+              :class="i != navLinks.length - 1 ? 'mr-2' : ''"
+              :variant="link.variant"
+              :color="link.color || ''"
+            >
+              {{ link.text }}
+            </v-btn>
+          </div>
+          <v-app-bar-nav-icon
+            v-if="navLinks?.length && !mdAndUp"
+            @click.stop="drawer = !drawer"
+          ></v-app-bar-nav-icon>
+        </template>
+      </v-app-bar>
+      <v-navigation-drawer v-model="drawer" :temporary="false" disable-resize-watcher>
+        <v-list>
+          <v-list-item v-for="link in navLinks" :key="link.text" @click="() => {}">
+            {{ link.text }}
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+      <v-main style="min-height: 75vh">
+        <v-container>
+          <FloorplanFilters
+            v-if="floorplanTypes.type === 'SUCCESS'"
+            :floorplanTypes="floorplanTypes.data"
+            :onClickFront="onClickFront"
+            :onClickBack="onClickBack"
+            v-model:floorplanTypeId="floorplanTypeId"
+            v-model:bedrooms="bedrooms"
+            v-model:bathrooms="bathrooms"
+            v-model:garages="garages"
+            v-model:orderBy="orderBy"
+            v-model:minSize="minSize"
+            v-model:maxSize="maxSize"
+            v-model:minWidth="minWidth"
+            v-model:maxWidth="maxWidth"
+            v-model:minLength="minLength"
+            v-model:maxLength="maxLength"
+            v-model:front="front"
+            v-model:back="back"
+            :openDefault="openDefault"
+            :textFieldVariant="textFieldVariant"
+            :rounded="textFieldRounded"
+            :elevation="filterElevation"
+          />
+          <div v-if="floorplans.type === 'LOADING'" class="d-flex justify-center">Loading...</div>
+          <v-row v-else-if="floorplans.type === 'SUCCESS'">
+            <v-col cols="12" sm="6" md="4" lg="3" v-for="item in floorplans.data" :key="item.id">
+              <FloorplanCard
+                :item="item"
+                :rounded="cardRounded"
+                :elevation="cardElevation"
+                :transparent="cardTransparent"
+              />
+            </v-col>
+          </v-row>
+          <div v-else-if="floorplans.type === 'ERROR'">{{ floorplans.error.message }}</div>
+        </v-container>
+      </v-main>
+      <v-footer :theme="footerTheme" class="py-10">
+        <v-row justify="center" no-gutters>
+          <v-btn
+            v-for="link in navLinks"
+            :key="link.text"
+            variant="text"
+            class="mx-1"
+            rounded="lg"
+            @click="() => {}"
+          >
+            {{ link.text }}
+          </v-btn>
+          <v-col cols="12" class="d-flex justify-center align-center mt-5" v-if="email">
+            <v-btn
+              variant="text"
+              prepend-icon="mdi-email"
+              class="text-none"
+              :href="`mailto:${email}`"
+            >
+              {{ email }}
+            </v-btn>
+          </v-col>
+          <v-col cols="12" class="d-flex justify-center align-center mt-5" v-if="phone">
+            <v-btn variant="text" prepend-icon="mdi-phone" class="text-none" href="">
+              {{ phone }}
+            </v-btn>
+          </v-col>
+          <v-col cols="12" class="d-flex justify-center my-5">
+            <v-img
+              v-if="logo"
+              :src="logo"
+              alt="Payloader logo"
+              max-height="60"
+              max-width="60"
+              class="pr-0"
+            />
+            <!-- <v-icon color="white" size="35" class="mr-2">mdi-home</v-icon> -->
+            <!-- <span class="text-h6">ayloader</span> -->
+          </v-col>
+          <v-col class="text-center" cols="12"> © 2024 Schematix. All rights reserved. </v-col>
+        </v-row>
+      </v-footer>
+    </v-app>
+  </v-theme-provider>
+</template>
