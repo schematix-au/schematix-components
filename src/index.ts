@@ -1,2 +1,4 @@
 import SchematixCustomPage from './components/SchematixCustomPage.vue'
-export { SchematixCustomPage }
+export default SchematixCustomPage
+
+export * from '@/types'

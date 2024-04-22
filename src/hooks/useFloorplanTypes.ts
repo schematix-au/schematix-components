@@ -1,4 +1,5 @@
 import useLoadData from '@/hooks/useLoadData'
+import { Floorplan } from '@/types'
 // import { getFloorplanTypes } from '@/services/api/floorplanTypes'
 
 // export const useFloorplanTypes = () => useLoadData(refreshFloorplanTypes)

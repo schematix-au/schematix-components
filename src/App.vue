@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import SchematixCustomPage from '@/components/SchematixCustomPage.vue'
 import logo from '@/assets/logo.png'
+import { BtnVariant } from './types'
+
 const navLinks: {
   text: string
   link: string

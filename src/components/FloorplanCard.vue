@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import FloorplanDialog from './FloorplanDialog.vue'
-
+import { Floorplan } from '@/types'
 import { useDisplay, useTheme } from 'vuetify'
 
 const { xs } = useDisplay()

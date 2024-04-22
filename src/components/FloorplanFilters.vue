@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-// import { useFloorplansStore } from '@/stores/floorplans'
-// const floorplansStore = useFloorplansStore()
+import { FloorplanType, TextFieldVariant } from '@/types'
 
 const floorplanTypeId = defineModel('floorplanTypeId', { type: Number, default: undefined })
 const bedrooms = defineModel('bedrooms', { type: Number, default: undefined })

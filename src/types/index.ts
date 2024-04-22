@@ -1,10 +1,10 @@
-declare type DbVals = {
+export type DbVals = {
   id: number
   createdAt: string
   updatedAt: string
 }
 
-type TextFieldVariant =
+export type TextFieldVariant =
   | 'filled'
   | 'outlined'
   | 'plain'
@@ -12,10 +12,10 @@ type TextFieldVariant =
   | 'solo-filled'
   | 'solo-inverted'
   | 'underlined'
-type BtnVariant = 'text' | 'outlined' | 'flat' | 'elevated' | 'tonal' | 'plain'
-type NavDesity = 'comfortable' | 'compact' | 'default' | 'prominent'
+export type BtnVariant = 'text' | 'outlined' | 'flat' | 'elevated' | 'tonal' | 'plain'
+export type NavDensity = 'comfortable' | 'compact' | 'default' | 'prominent'
 
-declare type NewFloorplan = {
+export type NewFloorplan = {
   name: string
   size: number
   width: number
@@ -34,22 +34,18 @@ declare type NewFloorplan = {
   masterPosRear: boolean
   floorplanTypeId: number
 }
-declare type Floorplan = NewFloorplan & DbVals
+export type Floorplan = NewFloorplan & DbVals
 
-declare type NewFloorplanType = {
+export type NewFloorplanType = {
   name: string
 }
-declare type FloorplanType = NewFloorplanType & DbVals
+export type FloorplanType = NewFloorplanType & DbVals
 
-declare type NewUser = {
+export type NewUser = {
   email: string
   username?: string
   password: string
   admin?: boolean
   domain?: string
 }
-declare type User = NewUser & DbVals
-
-// declare type UserInstance = User & {
-//   subscription?: Subscription
-// }
+export type User = NewUser & DbVals

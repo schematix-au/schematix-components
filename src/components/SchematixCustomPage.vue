@@ -3,7 +3,7 @@ import { ref, computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
 import FloorplanFilters from './FloorplanFilters.vue'
 import FloorplanCard from './FloorplanCard.vue'
-
+import { TextFieldVariant, NavDensity, BtnVariant } from '@/types'
 import { useFloorplans } from '../hooks/useFloorplans'
 import { useFloorplanTypes } from '../hooks/useFloorplanTypes'
 
@@ -23,7 +23,7 @@ interface Props {
   textFieldRounded: string
   textFieldVariant?: TextFieldVariant
   navElevation: number
-  navDensity?: NavDesity
+  navDensity?: NavDensity
   filterElevation?: number
 
   navLinks?: {

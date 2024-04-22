@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useDisplay } from 'vuetify'
+import { Floorplan } from '@/types'
 const { xs } = useDisplay()
 const props = defineProps<{
   item: Floorplan

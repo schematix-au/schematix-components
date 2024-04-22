@@ -7,6 +7,4 @@ import vuetify from '@/plugins/vuetify'
 
 const app = createApp(App)
 
-app.use(vuetify)
-
-app.mount('#app')
+app.use(vuetify).mount('#app')

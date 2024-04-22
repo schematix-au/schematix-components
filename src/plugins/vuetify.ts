@@ -1,9 +1,10 @@
 import 'vuetify/styles'
 import '@mdi/font/css/materialdesignicons.css'
-import { createVuetify, type ThemeDefinition } from 'vuetify'
+import { createVuetify, ThemeDefinition } from 'vuetify'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { defaults } from '@/plugins/defaults'
-import { VBtn } from 'vuetify/components/VBtn'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 
 const customDarkTheme: ThemeDefinition = {
   dark: true,
@@ -26,11 +27,9 @@ export default createVuetify({
     defaultTheme: 'customLightTheme',
     themes: { customDarkTheme, customLightTheme }
   },
+  components,
+  directives,
   defaults,
-  // aliases: customAliases,
-  aliases: {
-    VBtnElevated: VBtn
-  },
   icons: {
     defaultSet: 'mdi',
     aliases,
