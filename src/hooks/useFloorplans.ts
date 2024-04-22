@@ -31,6 +31,7 @@
 // }
 
 import useLoadData from '@/hooks/useLoadData'
+import { Floorplan } from '@/types'
 import type { Ref } from 'vue'
 // import { getFloorplans } from '@/services/api/floorplans'
 // import { useFloorplansStore } from '@/stores/floorplans'
