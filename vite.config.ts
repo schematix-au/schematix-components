@@ -17,10 +17,32 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['vue', 'vuetify'],
+      external: [
+        'vue',
+        'vuetify',
+        'vuetify/components/VCard',
+        'vuetify/components/VImg',
+        'vuetify/components/VIcon',
+        'vuetify/components/VDialog',
+        'vuetify/components/VBtn',
+        'vuetify/components/VApp',
+        'vuetify/components/VAppBar',
+        'vuetify/components/VThemeProvider',
+        'vuetify/components/VNavigationDrawer',
+        'vuetify/components/VList',
+        'vuetify/components/VGrid',
+        'vuetify/components/VMain',
+        'vuetify/components/VCarousel',
+        'vuetify/components/VExpansionPanel',
+        'vuetify/components/VSelect',
+        'vuetify/components/VTextField',
+        'vuetify/components/VCheckbox',
+        'vuetify/components/VFooter'
+      ],
       output: {
         globals: {
-          vue: 'Vue'
+          vue: 'Vue',
+          vuetify: 'vuetify'
         }
       }
     },
