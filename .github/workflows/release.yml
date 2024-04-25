@@ -1,0 +1,45 @@
+name: Release
+on:
+  push:
+    tags: '**'
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run build
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_ACCESS_TOKEN }}
+  beta-release:
+    if: contains(github.ref, '-beta.')
+    name: Beta Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker://antonyurchenko/git-release:v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          DRAFT_RELEASE: 'false'
+          PRE_RELEASE: 'true'
+          CHANGELOG_FILE: 'CHANGELOG.md'
+
+  release:
+    if: ${{ ! contains(github.ref , '-beta.') }}
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker://antonyurchenko/git-release:v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          DRAFT_RELEASE: 'false'
+          PRE_RELEASE: 'false'
+          CHANGELOG_FILE: 'CHANGELOG.md'
