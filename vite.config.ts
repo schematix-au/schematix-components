@@ -11,7 +11,6 @@ export default defineConfig({
   build: {
     lib: {
       entry: [path.resolve(__dirname, 'src/index.ts')],
-
       name: 'SchematixCustomPage',
       fileName: 'index',
       formats: ['es']
@@ -56,6 +55,7 @@ export default defineConfig({
     }
   },
   server: {
-    port: 8082
+    port: 8082,
+    open: true
   }
 })
