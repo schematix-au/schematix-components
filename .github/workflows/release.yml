@@ -28,7 +28,6 @@ jobs:
         with:
           DRAFT_RELEASE: 'false'
           PRE_RELEASE: 'true'
-          CHANGELOG_FILE: 'CHANGELOG.md'
 
   release:
     if: ${{ ! contains(github.ref , '-beta.') }}

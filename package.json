@@ -30,7 +30,7 @@
     "vuetify": "^3.5.16"
   },
   "scripts": {
-    "build": "npm run type-check && npm run build-only",
+    "build": "npm run typescript && npm run build-only",
     "build-only": "vite build",
     "dev": "vite",
     "fixpack": "fixpack",
