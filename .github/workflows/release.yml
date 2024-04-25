@@ -16,19 +16,6 @@ jobs:
       - uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_ACCESS_TOKEN }}
-  beta-release:
-    if: contains(github.ref, '-beta.')
-    name: Beta Release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker://antonyurchenko/git-release:v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          DRAFT_RELEASE: 'false'
-          PRE_RELEASE: 'true'
-
   release:
     if: ${{ ! contains(github.ref , '-beta.') }}
     name: Release
