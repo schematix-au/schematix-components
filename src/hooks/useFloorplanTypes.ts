@@ -30,7 +30,7 @@ const refreshFloorplanTypes = async () => {
     })
 
     const data: ResponseData = await result.json()
-    return data.result
+    return data.sad
   } catch (err) {
     console.error(err)
     throw err
