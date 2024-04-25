@@ -1,6 +1,6 @@
 {
   "name": "schematix-custom-page",
-  "version": "0.0.5-beta.4",
+  "version": "0.0.5-beta.5",
   "devDependencies": {
     "@mdi/font": "^7.4.47",
     "@oneblink/release-cli": "^3.1.0",
