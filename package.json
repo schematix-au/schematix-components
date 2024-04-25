@@ -1,8 +1,9 @@
 {
   "name": "schematix-custom-page",
-  "version": "0.0.5-beta.3",
+  "version": "0.0.5-beta.4",
   "devDependencies": {
     "@mdi/font": "^7.4.47",
+    "@oneblink/release-cli": "^3.1.0",
     "@rushstack/eslint-patch": "^1.10.2",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/eslint-config-prettier": "^9.0.0",
@@ -37,7 +38,8 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "preview": "vite preview",
     "test": "npm run typescript && npm run lint",
-    "typescript": "vue-tsc"
+    "typescript": "vue-tsc",
+    "release": "oneblink-release repository"
   },
   "type": "module",
   "types": "./dist/index.d.ts"
