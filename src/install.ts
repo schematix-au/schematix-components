@@ -10,7 +10,7 @@ import { VNavigationDrawer } from 'vuetify/components/VNavigationDrawer'
 import { VList, VListItem } from 'vuetify/components/VList'
 import { VCol, VContainer, VRow } from 'vuetify/components/VGrid'
 import { VMain } from 'vuetify/components/VMain'
-import { VCarousel } from 'vuetify/components/VCarousel'
+import { VCarousel, VCarouselItem } from 'vuetify/components/VCarousel'
 import {
   VExpansionPanel,
   VExpansionPanelText,
@@ -20,6 +20,7 @@ import { VSelect } from 'vuetify/components/VSelect'
 import { VTextField } from 'vuetify/components/VTextField'
 import { VCheckbox } from 'vuetify/components/VCheckbox'
 import { VFooter } from 'vuetify/components/VFooter'
+import { VDivider } from 'vuetify/components/VDivider'
 
 // There seems to be a bug in Vue where the imported `App` type from 'vue'
 // in this lib is not of an assignable type to the `app` that is passed
@@ -47,6 +48,7 @@ const install = (app: any) => {
   app.component('v-col', VCol)
   app.component('v-main', VMain)
   app.component('v-carousel', VCarousel)
+  app.component('v-carousel-item', VCarouselItem)
   app.component('v-expansion-panels', VExpansionPanels)
   app.component('v-expansion-panel', VExpansionPanel)
   app.component('v-select', VSelect)
@@ -54,6 +56,7 @@ const install = (app: any) => {
   app.component('v-text-field', VTextField)
   app.component('v-checkbox', VCheckbox)
   app.component('v-footer', VFooter)
+  app.component('v-divider', VDivider)
 }
 
 export default install
