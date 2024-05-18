@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { FloorplanType, TextFieldVariant } from '@/types'
 
 const floorplanTypeId = defineModel('floorplanTypeId', { type: Number, default: undefined })
@@ -22,7 +22,8 @@ const props = defineProps<{
   onClickBack: () => void
   openDefault?: number
   textFieldVariant?: TextFieldVariant
-  rounded: string
+  textFieldRounded: number
+  cardRounded: number
   elevation?: number
 }>()
 
@@ -35,6 +36,8 @@ watch(
   }
 )
 
+const borderRadius = computed(() => `${props.textFieldRounded}px`)
+
 const orderByOptions = [
   { label: 'Size (lower to higher)', orderBy: 'size', direction: 'asc' },
   { label: 'Size (higher to lower)', orderBy: 'size', direction: 'desc' }
@@ -43,7 +46,11 @@ const orderByOptions = [
 
 <template>
   <v-expansion-panels class="mb-5" v-model="open">
-    <v-expansion-panel title="Filters" :elevation="elevation">
+    <v-expansion-panel
+      title="Filters"
+      :elevation="elevation"
+      :style="`border-radius: ${cardRounded}px`"
+    >
       <v-expansion-panel-text>
         <v-container class="px-0">
           <v-row>
@@ -56,7 +63,6 @@ const orderByOptions = [
                 item-value="id"
                 clearable
                 :variant="textFieldVariant || undefined"
-                :rounded="rounded"
               ></v-select>
             </v-col>
             <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
@@ -66,7 +72,6 @@ const orderByOptions = [
                 :items="[1, 2, 3, 4, 5, 6]"
                 clearable
                 :variant="textFieldVariant || undefined"
-                :rounded="rounded"
               ></v-select>
             </v-col>
             <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
@@ -76,7 +81,6 @@ const orderByOptions = [
                 :items="[1, 2, 3, 4, 5, 6]"
                 clearable
                 :variant="textFieldVariant || undefined"
-                :rounded="rounded"
               ></v-select>
             </v-col>
             <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
@@ -86,7 +90,6 @@ const orderByOptions = [
                 :items="[1, 2, 3, 4, 5, 6]"
                 clearable
                 :variant="textFieldVariant || undefined"
-                :rounded="rounded"
               ></v-select>
             </v-col>
 
@@ -99,7 +102,6 @@ const orderByOptions = [
                 label="Sort by"
                 clearable
                 :variant="textFieldVariant || undefined"
-                :rounded="rounded"
               ></v-select>
             </v-col>
           </v-row>
@@ -114,14 +116,12 @@ const orderByOptions = [
                     v-model.number="minSize"
                     class="pr-1"
                     :variant="textFieldVariant || undefined"
-                    :rounded="rounded"
                   ></v-text-field>
                   <v-text-field
                     label="Max"
                     v-model.number="maxSize"
                     class="pl-1"
                     :variant="textFieldVariant || undefined"
-                    :rounded="rounded"
                   ></v-text-field>
                 </div>
               </div>
@@ -135,14 +135,12 @@ const orderByOptions = [
                     v-model.number="minWidth"
                     class="pr-1"
                     :variant="textFieldVariant || undefined"
-                    :rounded="rounded"
                   ></v-text-field>
                   <v-text-field
                     label="Max"
                     v-model.number="maxWidth"
                     class="pl-1"
                     :variant="textFieldVariant || undefined"
-                    :rounded="rounded"
                   ></v-text-field>
                 </div>
               </div>
@@ -156,14 +154,12 @@ const orderByOptions = [
                     v-model.number="minLength"
                     class="pr-1"
                     :variant="textFieldVariant || undefined"
-                    :rounded="rounded"
                   ></v-text-field>
                   <v-text-field
                     label="Max"
                     v-model.number="maxLength"
                     class="pl-1"
                     :variant="textFieldVariant || undefined"
-                    :rounded="rounded"
                   ></v-text-field>
                 </div>
               </div>
@@ -184,99 +180,8 @@ const orderByOptions = [
   </v-expansion-panels>
 </template>
 
-<!-- <template>
-  <v-expansion-panels class="mb-5">
-    <v-expansion-panel title="Filters">
-      <v-expansion-panel-text>
-        <v-container>
-          <v-row>
-            <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
-              <v-autocomplete
-                v-model="floorplanTypeId"
-                label="Floorplan Types"
-                :items="floorplanTypes"
-                item-title="name"
-                item-value="id"
-                clearable
-              ></v-autocomplete>
-            </v-col>
-            <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
-              <v-autocomplete
-                v-model="bedrooms"
-                label="Bedrooms"
-                :items="[1, 2, 3, 4, 5, 6]"
-                clearable
-              ></v-autocomplete>
-            </v-col>
-            <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
-              <v-autocomplete
-                v-model="bathrooms"
-                label="Bathrooms"
-                :items="[1, 2, 3, 4, 5, 6]"
-                clearable
-              ></v-autocomplete>
-            </v-col>
-            <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
-              <v-autocomplete
-                v-model="garages"
-                label="Garages"
-                :items="[1, 2, 3, 4, 5, 6]"
-                clearable
-              ></v-autocomplete>
-            </v-col>
-
-            <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
-              <v-select
-                v-model="orderBy"
-                :items="orderByOptions"
-                item-title="label"
-                return-object
-                label="Sort by"
-                clearable
-              ></v-select>
-            </v-col>
-          </v-row>
-
-          <v-row>
-            <v-col cols="12" sm="4" md="3" xl="2" class="py-0">
-              <div class="d-flex flex-column">
-                <div class="pb-2">{{ 'House size(m\u00B2)' }}</div>
-                <div class="d-flex flex-row">
-                  <v-text-field label="Min" v-model.number="minSize" class="pr-1"></v-text-field>
-                  <v-text-field label="Max" v-model.number="maxSize" class="pl-1"></v-text-field>
-                </div>
-              </div>
-            </v-col>
-            <v-col cols="12" sm="4" md="3" xl="2" class="py-0">
-              <div class="d-flex flex-column">
-                <div class="pb-2">{{ 'House width(m\u00B2)' }}</div>
-                <div class="d-flex flex-row">
-                  <v-text-field label="Min" v-model.number="minWidth" class="pr-1"></v-text-field>
-                  <v-text-field label="Max" v-model.number="maxWidth" class="pl-1"></v-text-field>
-                </div>
-              </div>
-            </v-col>
-            <v-col cols="12" sm="4" md="3" xl="2" class="py-0">
-              <div class="d-flex flex-column">
-                <div class="pb-2">{{ 'House length(m\u00B2)' }}</div>
-                <div class="d-flex flex-row">
-                  <v-text-field label="Min" v-model.number="minLength" class="pr-1"></v-text-field>
-                  <v-text-field label="Max" v-model.number="maxLength" class="pl-1"></v-text-field>
-                </div>
-              </div>
-            </v-col>
-            <v-col cols="12" sm="4" md="3" xl="2" class="py-0">
-              <div class="d-flex flex-column">
-                <div class="pb-2">Master Suite Location</div>
-                <div class="d-flex flex-row">
-                  <v-checkbox label="Front" v-model="front" @click="onClickFront"></v-checkbox>
-                  <v-checkbox label="Back" v-model="back" @click="onClickBack"></v-checkbox>
-                </div>
-              </div>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-expansion-panel-text>
-    </v-expansion-panel>
-  </v-expansion-panels>
-</template> -->
+<style scoped>
+.v-text-field ::v-deep(.v-field) {
+  border-radius: v-bind(borderRadius) !important;
+}
+</style>

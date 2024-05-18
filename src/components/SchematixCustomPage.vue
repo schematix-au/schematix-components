@@ -17,10 +17,10 @@ interface Props {
   footerDarkMode?: boolean
   logo?: string
   openDefault?: number
-  cardRounded: string
+  cardRounded: number
   cardElevation: number
   cardTransparent: boolean
-  textFieldRounded: string
+  textFieldRounded: number
   textFieldVariant?: TextFieldVariant
   navElevation: number
   navDensity?: NavDensity
@@ -154,9 +154,7 @@ const onClickBack = () => {
         <template v-slot:prepend v-if="logo || !mdAndUp">
           <v-img v-if="logo" :src="logo" alt="Schematix logo" style="height: 40px; width: 40px" />
         </template>
-        <v-app-bar-title class="font-weight-light d-flex">
-          {{ title }}
-        </v-app-bar-title>
+        <v-app-bar-title class="font-weight-light d-flex"> {{ title }} </v-app-bar-title>
 
         <template v-slot:append>
           <div v-if="navLinks?.length && mdAndUp">
@@ -206,7 +204,8 @@ const onClickBack = () => {
             v-model:back="back"
             :openDefault="openDefault"
             :textFieldVariant="textFieldVariant"
-            :rounded="textFieldRounded"
+            :textFieldRounded="textFieldRounded"
+            :cardRounded="cardRounded"
             :elevation="filterElevation"
           />
           <div v-if="floorplans.type === 'LOADING'" class="d-flex justify-center">Loading...</div>
