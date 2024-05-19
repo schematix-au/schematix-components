@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import FloorplanDialog from './FloorplanDialog.vue'
 import { Floorplan } from '@/types'
 import { useDisplay, useTheme } from 'vuetify'
@@ -16,7 +16,7 @@ const props = defineProps<{
 const dialog = ref(false)
 
 const displayUrl = `${import.meta.env.VITE_AWS_URL}${props.item.imgKeys[0]}`
-const borderRadius = `border-radius: ${props.rounded}px`
+const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
 </script>
 <template>
   <v-card
