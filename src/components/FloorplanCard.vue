@@ -9,17 +9,18 @@ const { current } = useTheme()
 const dark = current.value.dark
 const props = defineProps<{
   item: Floorplan
-  rounded: string
+  rounded: number
   elevation: number
   transparent: boolean
 }>()
 const dialog = ref(false)
 
 const displayUrl = `${import.meta.env.VITE_AWS_URL}${props.item.imgKeys[0]}`
+const borderRadius = `border-radius: ${props.rounded}px`
 </script>
 <template>
   <v-card
-    :rounded="rounded"
+    :style="borderRadius"
     ripple
     @click="() => {}"
     :color="transparent ? 'transparent' : ''"
@@ -27,12 +28,7 @@ const displayUrl = `${import.meta.env.VITE_AWS_URL}${props.item.imgKeys[0]}`
     :class="dark ?? 'text-grey-lighten-2'"
     :elevation="elevation"
   >
-    <v-img
-      :src="displayUrl"
-      :class="rounded === 'rounded' ? 'rounded' : `rounded-${rounded}`"
-      height="250"
-      cover
-    ></v-img>
+    <v-img :style="borderRadius" :src="displayUrl" height="250" cover></v-img>
     <v-card-title class="font-weight-light">{{ item.name }}</v-card-title>
     <v-card-text class="d-flex align-center font-weight-light">
       <div class="pr-3 d-flex align-center">
@@ -54,7 +50,7 @@ const displayUrl = `${import.meta.env.VITE_AWS_URL}${props.item.imgKeys[0]}`
     </v-card-text>
 
     <v-dialog v-model="dialog" max-width="700" :fullscreen="xs" activator="parent">
-      <FloorplanDialog :item="item" :close="() => (dialog = false)" />
+      <FloorplanDialog :item="item" :close="() => (dialog = false)" :rounded="rounded" />
     </v-dialog>
   </v-card>
 </template>

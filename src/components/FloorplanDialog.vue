@@ -1,23 +1,22 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { Floorplan } from '@/types'
 const { xs } = useDisplay()
 const props = defineProps<{
   item: Floorplan
+  rounded: number
   close: () => void
 }>()
+
+const borderRadius = computed(() => (!xs.value ? `border-radius: ${props.rounded}px` : ''))
 const displayImage = `${import.meta.env.VITE_AWS_URL}${props.item.imgKeys[0]}`
 const keys = props.item.imgKeys.slice(1).map((key) => `${import.meta.env.VITE_AWS_URL}${key}`)
 </script>
 
 <template>
-  <v-card :rounded="!xs ? 'lg' : ''">
-    <v-img
-      :src="displayImage"
-      :class="!xs ? 'rounded-lg' : ''"
-      :height="xs ? '200' : '360'"
-      cover
-    ></v-img>
+  <v-card :style="borderRadius">
+    <v-img :src="displayImage" :style="borderRadius" :height="xs ? '200' : '360'" cover></v-img>
     <v-card-title class="text-h5 pt-5 d-flex justify-space-between align-center font-weight-light">
       {{ item.name }}
       <v-btn icon flat size="small" @click="close" v-if="xs">
