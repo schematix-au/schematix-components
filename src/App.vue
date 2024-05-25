@@ -13,10 +13,14 @@ const navLinks: {
   { text: 'About', link: '/about', variant: 'tonal' },
   { text: 'Contact', link: '/contact', variant: 'tonal' }
 ]
+const baseUrl = import.meta.env.VITE_BASE_URL
+const awsUrl = import.meta.env.VITE_AWS_URL
 </script>
 
 <template>
   <SchematixCustomPage
+    :baseUrl="baseUrl"
+    :awsUrl="awsUrl"
     :organisationId="1"
     :logo="logo"
     title="Site Title"

@@ -8,6 +8,7 @@ const { xs } = useDisplay()
 const { current } = useTheme()
 const dark = current.value.dark
 const props = defineProps<{
+  awsUrl: string
   item: Floorplan
   rounded: number
   elevation: number
@@ -15,7 +16,7 @@ const props = defineProps<{
 }>()
 const dialog = ref(false)
 
-const displayUrl = `${import.meta.env.VITE_AWS_URL}${props.item.imgKeys[0]}`
+const displayUrl = `${props.awsUrl}${props.item.imgKeys[0]}`
 const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
 </script>
 <template>
@@ -50,7 +51,12 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
     </v-card-text>
 
     <v-dialog v-model="dialog" max-width="700" :fullscreen="xs" activator="parent">
-      <FloorplanDialog :item="item" :close="() => (dialog = false)" :rounded="rounded" />
+      <FloorplanDialog
+        :awsUrl="awsUrl"
+        :item="item"
+        :close="() => (dialog = false)"
+        :rounded="rounded"
+      />
     </v-dialog>
   </v-card>
 </template>

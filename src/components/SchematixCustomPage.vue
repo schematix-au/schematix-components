@@ -8,6 +8,8 @@ import { useFloorplans } from '../hooks/useFloorplans'
 import { useFloorplanTypes } from '../hooks/useFloorplanTypes'
 
 interface Props {
+  baseUrl: string
+  awsUrl: string
   organisationId: number
   title: string
   email?: string
@@ -121,8 +123,8 @@ const { mdAndUp } = useDisplay()
 
 const drawer = ref(false)
 
-const [floorplans] = useFloorplans(floorplanProps)
-const [floorplanTypes] = useFloorplanTypes()
+const [floorplans] = useFloorplans({ payload: floorplanProps, baseUrl: props.baseUrl })
+const [floorplanTypes] = useFloorplanTypes(props.baseUrl)
 
 const theme = computed(() => (props.darkMode ? 'customDarkTheme' : 'customLightTheme'))
 const navbarTheme = computed(() => {
@@ -212,6 +214,7 @@ const onClickBack = () => {
           <v-row v-else-if="floorplans.type === 'SUCCESS'">
             <v-col cols="12" sm="6" md="4" lg="3" v-for="item in floorplans.data" :key="item.id">
               <FloorplanCard
+                :awsUrl="awsUrl"
                 :item="item"
                 :rounded="cardRounded"
                 :elevation="cardElevation"

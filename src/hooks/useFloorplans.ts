@@ -1,41 +1,6 @@
-// import useLoadData from '@/hooks/useLoadData'
-// import { getFloorplans } from '@/services/api/floorplans'
-// import { useFloorplansStore } from '@/stores/floorplans'
-// const floorplansStore = useFloorplansStore()
-
-// export const useFloorplans = () => useLoadData(refreshFloorplans)
-
-// const refreshFloorplans = async () => {
-//   try {
-//     const payload = {
-//       organisationId: floorplansStore.organisationId || undefined,
-//       floorplanTypeId: floorplansStore.floorplanTypeId || undefined,
-//       bedrooms: floorplansStore.bedrooms || undefined,
-//       bathrooms: floorplansStore.bathrooms || undefined,
-//       garages: floorplansStore.garages || undefined,
-//       masterPosRear: floorplansStore.masterPosRear,
-//       minSize: floorplansStore.minSize || undefined,
-//       maxSize: floorplansStore.maxSize || undefined,
-//       minWidth: floorplansStore.minWidth || undefined,
-//       maxWidth: floorplansStore.maxWidth || undefined,
-//       minLength: floorplansStore.minLength || undefined,
-//       maxLength: floorplansStore.maxLength || undefined,
-//       orderBy: floorplansStore.orderBy || undefined
-//     }
-//     const result = await getFloorplans(payload)
-//     return result.data.result
-//   } catch (err) {
-//     console.error(err)
-//     throw err
-//   }
-// }
-
 import useLoadData from '@/hooks/useLoadData'
 import { Floorplan } from '@/types'
 import type { Ref } from 'vue'
-// import { getFloorplans } from '@/services/api/floorplans'
-// import { useFloorplansStore } from '@/stores/floorplans'
-// const floorplansStore = useFloorplansStore()
 
 interface RequestBody {
   organisationId: number
@@ -57,10 +22,14 @@ interface ResponseData {
   result: Floorplan[]
 }
 
-export const useFloorplans = (payload: Ref<RequestBody>) =>
-  useLoadData(() => refreshFloorplans(payload))
+interface Props {
+  payload: Ref<RequestBody>
+  baseUrl: string
+}
+export const useFloorplans = ({ payload, baseUrl }: Props) =>
+  useLoadData(() => refreshFloorplans({ payload, baseUrl }))
 
-const refreshFloorplans = async (payload: Ref<RequestBody>) => {
+const refreshFloorplans = async ({ payload, baseUrl }: Props) => {
   try {
     console.log(payload.value)
     const body = {
@@ -78,7 +47,7 @@ const refreshFloorplans = async (payload: Ref<RequestBody>) => {
       maxLength: payload.value.maxLength,
       masterPosRear: payload.value.masterPosRear
     }
-    const result = await fetch(`${import.meta.env.VITE_BASE_URL}api/floorplans/public`, {
+    const result = await fetch(`${baseUrl}api/floorplans/public`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

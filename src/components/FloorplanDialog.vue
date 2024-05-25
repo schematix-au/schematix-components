@@ -2,16 +2,18 @@
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { Floorplan } from '@/types'
+
 const { xs } = useDisplay()
 const props = defineProps<{
+  awsUrl: string
   item: Floorplan
   rounded: number
   close: () => void
 }>()
 
 const borderRadius = computed(() => (!xs.value ? `border-radius: ${props.rounded}px` : ''))
-const displayImage = `${import.meta.env.VITE_AWS_URL}${props.item.imgKeys[0]}`
-const keys = props.item.imgKeys.slice(1).map((key) => `${import.meta.env.VITE_AWS_URL}${key}`)
+const displayImage = `${props.awsUrl}${props.item.imgKeys[0]}`
+const keys = props.item.imgKeys.slice(1).map((key) => `${props.awsUrl}${key}`)
 </script>
 
 <template>
