@@ -3,7 +3,7 @@ import { ref, computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
 import FloorplanFilters from './FloorplanFilters.vue'
 import FloorplanCard from './FloorplanCard.vue'
-import { TextFieldVariant, NavDensity, BtnVariant } from '@/types'
+import { TextFieldVariant, NavDensity } from '@/types'
 import { useFloorplans } from '../hooks/useFloorplans'
 import { useFloorplanTypes } from '../hooks/useFloorplanTypes'
 
@@ -12,6 +12,8 @@ interface Props {
   awsUrl: string
   organisationId: number
   title: string
+  homeUrl?: string
+  contactUrl?: string
   email?: string
   phone?: string
   darkMode: boolean
@@ -27,18 +29,10 @@ interface Props {
   navElevation: number
   navDensity?: NavDensity
   filterElevation?: number
-
-  navLinks?: {
-    text: string
-    link: string
-    color?: string
-    variant?: BtnVariant
-  }[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
   navDensity: 'default'
-  // navLinks: []
 })
 
 interface OrderBy {
@@ -119,7 +113,7 @@ watch(
   }
 )
 
-const { mdAndUp } = useDisplay()
+const { smAndUp } = useDisplay()
 
 const drawer = ref(false)
 
@@ -128,7 +122,6 @@ const [floorplanTypes] = useFloorplanTypes(props.baseUrl)
 
 const theme = computed(() => (props.darkMode ? 'customDarkTheme' : 'customLightTheme'))
 const navbarTheme = computed(() => {
-  console.log(props.navBarDarkMode)
   if (props.navBarDarkMode === undefined) return theme.value
   return props.navBarDarkMode ? 'customDarkTheme' : 'customLightTheme'
 })
@@ -147,40 +140,46 @@ const onClickBack = () => {
   else masterPosRear.value = undefined
   front.value = false
 }
+
+const href = (url: string) => (location.href = url)
 </script>
 
 <template>
   <v-theme-provider :theme="theme" with-background>
     <v-app>
       <v-app-bar :elevation="navElevation" :density="navDensity" :theme="navbarTheme">
-        <template v-slot:prepend v-if="logo || !mdAndUp">
+        <template v-slot:prepend v-if="logo">
           <v-img v-if="logo" :src="logo" alt="Schematix logo" style="height: 40px; width: 40px" />
         </template>
-        <v-app-bar-title class="font-weight-light d-flex"> {{ title }} </v-app-bar-title>
+        <v-app-bar-title class="font-weight-light d-flex">{{ title }}</v-app-bar-title>
 
         <template v-slot:append>
-          <div v-if="navLinks?.length && mdAndUp">
-            <v-btn
-              v-for="(link, i) in navLinks"
-              :key="link.text"
-              @click="() => {}"
-              :class="i != navLinks.length - 1 ? 'mr-2' : ''"
-              :variant="link.variant"
-              :color="link.color || ''"
-            >
-              {{ link.text }}
-            </v-btn>
-          </div>
+          <v-btn
+            v-if="homeUrl && smAndUp"
+            @click="() => href(homeUrl as string)"
+            variant="plain"
+            :class="contactUrl ?? 'mr-2'"
+          >
+            Home
+          </v-btn>
+          <v-btn
+            v-if="contactUrl && smAndUp"
+            @click="() => href(contactUrl as string)"
+            variant="plain"
+          >
+            Contact
+          </v-btn>
           <v-app-bar-nav-icon
-            v-if="navLinks?.length && !mdAndUp"
+            v-if="(homeUrl || contactUrl) && !smAndUp"
             @click.stop="drawer = !drawer"
           ></v-app-bar-nav-icon>
         </template>
       </v-app-bar>
       <v-navigation-drawer v-model="drawer" :temporary="false" disable-resize-watcher>
         <v-list>
-          <v-list-item v-for="link in navLinks" :key="link.text" @click="() => {}">
-            {{ link.text }}
+          <v-list-item v-if="homeUrl" @click="() => href(homeUrl as string)">Home</v-list-item>
+          <v-list-item v-if="contactUrl" @click="() => href(contactUrl as string)">
+            Contact
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
@@ -228,14 +227,22 @@ const onClickBack = () => {
       <v-footer :theme="footerTheme" class="py-10">
         <v-row justify="center" no-gutters>
           <v-btn
-            v-for="link in navLinks"
-            :key="link.text"
+            v-if="homeUrl"
             variant="text"
             class="mx-1"
             rounded="lg"
-            @click="() => {}"
+            @click="() => href(homeUrl as string)"
           >
-            {{ link.text }}
+            Home
+          </v-btn>
+          <v-btn
+            v-if="contactUrl"
+            variant="text"
+            class="mx-1"
+            rounded="lg"
+            @click="() => href(contactUrl as string)"
+          >
+            Contact
           </v-btn>
           <v-col cols="12" class="d-flex justify-center align-center mt-5" v-if="email">
             <v-btn
@@ -256,13 +263,11 @@ const onClickBack = () => {
             <v-img
               v-if="logo"
               :src="logo"
-              alt="Payloader logo"
+              :alt="`${title} logo`"
               max-height="60"
               max-width="60"
               class="pr-0"
             />
-            <!-- <v-icon color="white" size="35" class="mr-2">mdi-home</v-icon> -->
-            <!-- <span class="text-h6">ayloader</span> -->
           </v-col>
           <v-col class="text-center" cols="12"> © 2024 Schematix. All rights reserved. </v-col>
         </v-row>

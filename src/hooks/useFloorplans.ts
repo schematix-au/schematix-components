@@ -31,7 +31,6 @@ export const useFloorplans = ({ payload, baseUrl }: Props) =>
 
 const refreshFloorplans = async ({ payload, baseUrl }: Props) => {
   try {
-    console.log(payload.value)
     const body = {
       organisationId: payload.value.organisationId,
       floorplanTypeId: payload.value.floorplanTypeId,
