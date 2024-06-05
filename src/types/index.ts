@@ -30,6 +30,7 @@ export type NewFloorplan = {
   bedrooms: number
   garages: number
   imgKeys: string[]
+  salesKeys: string[]
   premium: boolean
   masterPosRear: boolean
   floorplanTypeId: number

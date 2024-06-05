@@ -1,105 +1,220 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
 import { Floorplan } from '@/types'
 
-const { xs } = useDisplay()
+import ImgCarousel from './ImgCarousel.vue'
+
+const { xs, sm, md, lgAndUp } = useDisplay()
 const props = defineProps<{
   awsUrl: string
   item: Floorplan
-  rounded: number
+  borderRadius?: string
   close: () => void
+  handleDownload?: (id: number) => void
+  handleDelete?: (id: number) => void
+  deleteLoading?: boolean
 }>()
 
-const borderRadius = computed(() => (!xs.value ? `border-radius: ${props.rounded}px` : ''))
-const displayImage = `${props.awsUrl}${props.item.imgKeys[0]}`
-const keys = props.item.imgKeys.slice(1).map((key) => `${props.awsUrl}${key}`)
+const deleteDialog = ref(false)
+
+const imgKeys = props.item.imgKeys.map((key) => `${props.awsUrl}${key}`)
+const salesKeys = props.item.salesKeys.map((key) => `${props.awsUrl}${key}`)
+
+const rooms = [
+  { icon: 'mdi-bed-queen-outline', value: props.item.bedrooms },
+  { icon: 'mdi-shower', value: props.item.bathrooms },
+  { icon: 'mdi-car-outline', value: props.item.garages },
+  { icon: 'mdi-arrow-expand-horizontal', value: props.item.size }
+]
+
+const details = [
+  { label: 'Area m<sup>2</sup>', value: props.item.area, suffix: 'm<sup>2</sup>' },
+  { label: 'Area Sqs', value: (props.item.area * 0.1076391041671).toFixed(2), suffix: 'sqs' },
+  { label: 'Garage', value: props.item.garageArea, suffix: 'm<sup>2</sup>' },
+  { label: 'Porch', value: props.item.porchArea, suffix: 'm<sup>2</sup>' },
+  { label: 'Alfresco', value: props.item.alfrescoArea, suffix: 'm<sup>2</sup>' },
+  { label: 'Ground Floor', value: props.item.groundFloorArea, suffix: 'm<sup>2</sup>' },
+  { label: 'First Floor', value: props.item.firstFloorArea, suffix: 'm<sup>2</sup>' },
+  { label: 'Length', value: props.item.length, suffix: 'm' },
+  { label: 'Width', value: props.item.width, suffix: 'm' }
+]
+
+const imageClasses = computed(() => {
+  const classes = []
+  if (xs.value) classes.push('pb-1')
+  if (sm.value) classes.push('pr-2')
+  if (md.value) classes.push('pr-0')
+  if (lgAndUp.value) classes.push('pb-1')
+  return classes
+})
+const salesClasses = computed(() => {
+  const classes = []
+  if (xs.value || sm.value || md.value) classes.push('pt-1')
+  if (lgAndUp.value) classes.push('pl-1')
+  return classes
+})
 </script>
 
 <template>
   <v-card :style="borderRadius">
-    <v-img :src="displayImage" :style="borderRadius" :height="xs ? '200' : '360'" cover></v-img>
-    <v-card-title class="text-h5 pt-5 d-flex justify-space-between align-center font-weight-light">
-      {{ item.name }}
-      <v-btn icon flat size="small" @click="close" v-if="xs">
-        <v-icon>mdi-close</v-icon>
+    <v-toolbar :title="item.name" color="transparent" class="border-b">
+      <v-spacer></v-spacer>
+      <v-btn
+        v-if="handleDelete"
+        @click="() => (deleteDialog = !deleteDialog)"
+        icon="mdi-delete"
+        color="red"
+        variant="text"
+        class="mr-2"
+      ></v-btn>
+      <v-btn
+        v-if="xs && handleDownload"
+        @click="handleDownload(item.id)"
+        icon="mdi-download"
+        color="primary"
+        size="small"
+      ></v-btn>
+      <v-btn
+        v-else-if="handleDownload"
+        @click="handleDownload(item.id)"
+        prepend-icon="mdi-download"
+      >
+        Download
       </v-btn>
-    </v-card-title>
-    <v-card-text class="d-flex align-center pb-10 justify-space-around">
-      <div class="pr-3 d-flex align-center font-weight-light" :class="xs ? 'text-h6' : 'text-h5'">
-        <v-icon class="pr-2 mr-2" icon="mdi-bed-queen-outline" :size="xs ? '30' : '40'"></v-icon>
-        {{ item.bedrooms }}
-      </div>
-      <div class="pr-3 d-flex align-center font-weight-light" :class="xs ? 'text-h6' : 'text-h5'">
-        <v-icon class="pr-2 mr-2" icon="mdi-shower" :size="xs ? '30' : '40'"></v-icon>
-        {{ item.bathrooms }}
-      </div>
-      <div class="pr-3 d-flex align-center font-weight-light" :class="xs ? 'text-h6' : 'text-h5'">
-        <v-icon class="pr-2 mr-2" icon="mdi-car-outline" :size="xs ? '30' : '40'"></v-icon>
-        {{ item.garages }}
-      </div>
-      <div class="d-flex align-center font-weight-light" :class="xs ? 'text-h6' : 'text-h5'">
-        <v-icon
-          class="pr-2 mr-2"
-          icon="mdi-arrow-expand-horizontal"
-          :size="xs ? '30' : '40'"
-        ></v-icon>
-        {{ item.size }}
-      </div>
-    </v-card-text>
-    <v-divider class="mx-5"></v-divider>
-    <v-card-text>
-      <v-carousel :height="xs ? '250' : '400'" hide-delimiter-background show-arrows="hover">
-        <v-carousel-item v-for="key in keys" :key="key" :src="key"></v-carousel-item>
-      </v-carousel>
-    </v-card-text>
-    <v-card-text>
-      <v-container>
-        <v-row>
-          <v-col cols="12" sm="6" class="d-flex justify-space-between bottom-border">
-            <span>Home Area m<sup>2</sup></span>
-            <span class="font-weight-bold">{{ item.area }}m<sup>2</sup></span>
-          </v-col>
-          <v-col cols="12" sm="6" class="d-flex justify-space-between bottom-border">
-            <span>Home Area Sqs</span>
-            <span class="font-weight-bold">{{ (item.area * 0.1076391041671).toFixed(2) }}sqs</span>
-          </v-col>
-          <v-col cols="12" sm="6" class="d-flex justify-space-between bottom-border">
-            <span>Garage</span>
-            <span class="font-weight-bold">{{ item.garageArea }}m<sup>2</sup></span>
-          </v-col>
-          <v-col cols="12" sm="6" class="d-flex justify-space-between bottom-border">
-            <span>Porch</span>
-            <span class="font-weight-bold">{{ item.porchArea }}m<sup>2</sup></span>
-          </v-col>
-          <v-col cols="12" sm="6" class="d-flex justify-space-between bottom-border">
-            <span>Alfresco</span>
-            <span class="font-weight-bold">{{ item.alfrescoArea }}m<sup>2</sup></span>
-          </v-col>
-          <v-col cols="12" sm="6" class="d-flex justify-space-between bottom-border">
-            <span>Ground Floor</span>
-            <span class="font-weight-bold">{{ item.groundFloorArea }}m<sup>2</sup></span>
-          </v-col>
-          <v-col cols="12" sm="6" class="d-flex justify-space-between bottom-border">
-            <span>First Floor</span>
-            <span class="font-weight-bold">{{ item.firstFloorArea }}m<sup>2</sup></span>
-          </v-col>
-          <v-col cols="12" sm="6" class="d-flex justify-space-between bottom-border">
-            <span>Length</span>
-            <span class="font-weight-bold">{{ item.length }}m</span>
-          </v-col>
-          <v-col cols="12" sm="6" class="d-flex justify-space-between bottom-border">
-            <span>Width</span>
-            <span class="font-weight-bold">{{ item.width }}m</span>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card-text>
-  </v-card>
-</template>
+      <v-btn icon="mdi-close" @click="close"> </v-btn>
+    </v-toolbar>
 
-<style scoped>
-.bottom-border {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-</style>
+    <v-container fluid>
+      <v-row>
+        <v-col cols="12" lg="4">
+          <v-container fluid class="pa-0">
+            <v-row>
+              <v-col cols="12" sm="6" md="4" lg="12" :class="imageClasses">
+                <ImgCarousel
+                  :keys="imgKeys"
+                  :height="md ? '250' : undefined"
+                  clickable
+                  :borderRadius="borderRadius"
+                />
+              </v-col>
+              <v-col sm="6" md="8" lg="12" :class="sm ? 'pl-2' : ''">
+                <v-container class="fill-height border d-flex d-md-none" :style="borderRadius">
+                  <v-row :class="sm && 'fill-height'">
+                    <v-col
+                      cols="3"
+                      sm="6"
+                      class="d-flex align-center justify-center"
+                      v-for="(room, i) in rooms"
+                      :key="i"
+                    >
+                      <div
+                        class="d-flex align-center font-weight-light"
+                        :class="xs ? 'text-h6' : 'text-h5'"
+                      >
+                        <v-icon
+                          class="pr-2 mr-2"
+                          :icon="room.icon"
+                          :size="xs ? '30' : '40'"
+                        ></v-icon>
+                        {{ room.value }}
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-container>
+                <div class="fill-height border px-4 d-none d-md-block" :style="borderRadius">
+                  <v-container class="d-flex align-center justify-space-between px-0">
+                    <div
+                      class="d-flex align-center font-weight-light"
+                      :class="xs ? 'text-h6' : 'text-h5'"
+                      v-for="(room, i) in rooms"
+                      :key="i"
+                    >
+                      <v-icon class="pr-2 mr-2" :icon="room.icon" :size="xs ? '30' : '40'"></v-icon>
+                      {{ room.value }}
+                    </div>
+                  </v-container>
+                  <v-container fluid class="px-0">
+                    <v-row>
+                      <v-col
+                        md="4"
+                        lg="6"
+                        class="d-flex justify-space-between"
+                        :class="
+                          (md && i > 5) || i === details.length - 1 ? 'border-b-0' : 'border-b'
+                        "
+                        v-for="(detail, i) in details"
+                        :key="i"
+                      >
+                        <span v-html="detail.label"></span>
+                        <span class="font-weight-bold">
+                          {{ detail.value }}
+                          <span v-html="detail.suffix"></span>
+                        </span>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </div>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-col>
+        <v-col cols="12" class="pt-1 d-none d-sm-flex d-md-none">
+          <v-container fluid class="pa-0 border pa-4" :style="borderRadius">
+            <v-row>
+              <v-col
+                cols="4"
+                class="d-flex justify-space-between"
+                :class="i > 5 ? 'border-b-0' : 'border-b'"
+                v-for="(detail, i) in details"
+                :key="i"
+              >
+                <span v-html="detail.label"></span>
+                <span class="font-weight-bold">
+                  {{ detail.value }}
+                  <span v-html="detail.suffix"></span>
+                </span>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-col>
+        <v-col cols="12" lg="8" :class="salesClasses">
+          <ImgCarousel :keys="salesKeys" clickable :borderRadius="borderRadius" />
+        </v-col>
+        <v-col cols="12" class="pt-2 d-flex d-sm-none">
+          <v-container fluid class="border" :style="borderRadius">
+            <v-row>
+              <v-col
+                cols="12"
+                class="d-flex justify-space-between"
+                :class="i === details.length - 1 ? 'border-b-0' : 'border-b'"
+                v-for="(detail, i) in details"
+                :key="i"
+              >
+                <span v-html="detail.label"></span>
+                <span class="font-weight-bold">
+                  {{ detail.value }}
+                  <span v-html="detail.suffix"></span>
+                </span>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-card>
+
+  <v-dialog v-if="handleDelete" v-model="deleteDialog" max-width="500">
+    <v-card>
+      <v-card-title>Delete {{ item.name }}</v-card-title>
+      <v-card-text>Are you sure you want to delete floorplan {{ item.name }}</v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="() => (deleteDialog = false)">Cancel</v-btn>
+        <v-btn @click="handleDelete(item.id)" variant="flat" color="red" :loading="deleteLoading">
+          Delete
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</template>

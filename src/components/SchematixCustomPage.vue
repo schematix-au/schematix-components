@@ -211,7 +211,7 @@ const href = (url: string) => (location.href = url)
           />
           <div v-if="floorplans.type === 'LOADING'" class="d-flex justify-center">Loading...</div>
           <v-row v-else-if="floorplans.type === 'SUCCESS'">
-            <v-col cols="12" sm="6" md="4" lg="3" v-for="item in floorplans.data" :key="item.id">
+            <v-col cols="12" sm="6" lg="4" xxl="3" v-for="item in floorplans.data" :key="item.id">
               <FloorplanCard
                 :awsUrl="awsUrl"
                 :item="item"

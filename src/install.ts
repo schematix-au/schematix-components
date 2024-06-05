@@ -1,4 +1,4 @@
-import { VCard, VCardText, VCardTitle } from 'vuetify/components/VCard'
+import { VCard, VCardText, VCardTitle, VCardActions } from 'vuetify/components/VCard'
 import { VImg } from 'vuetify/components/VImg'
 import { VIcon } from 'vuetify/components/VIcon'
 import { VDialog } from 'vuetify/components/VDialog'
@@ -8,7 +8,7 @@ import { VAppBar, VAppBarNavIcon, VAppBarTitle } from 'vuetify/components/VAppBa
 import { VThemeProvider } from 'vuetify/components/VThemeProvider'
 import { VNavigationDrawer } from 'vuetify/components/VNavigationDrawer'
 import { VList, VListItem } from 'vuetify/components/VList'
-import { VCol, VContainer, VRow } from 'vuetify/components/VGrid'
+import { VCol, VContainer, VRow, VSpacer } from 'vuetify/components/VGrid'
 import { VMain } from 'vuetify/components/VMain'
 import { VCarousel, VCarouselItem } from 'vuetify/components/VCarousel'
 import {
@@ -21,6 +21,9 @@ import { VTextField } from 'vuetify/components/VTextField'
 import { VCheckbox } from 'vuetify/components/VCheckbox'
 import { VFooter } from 'vuetify/components/VFooter'
 import { VDivider } from 'vuetify/components/VDivider'
+import { VSlideXTransition, VSlideXReverseTransition } from 'vuetify/components/transitions'
+import { VHover } from 'vuetify/components/VHover'
+import { VToolbar } from 'vuetify/components/VToolbar'
 
 // There seems to be a bug in Vue where the imported `App` type from 'vue'
 // in this lib is not of an assignable type to the `app` that is passed
@@ -31,6 +34,7 @@ const install = (app: any) => {
   app.component('v-img', VImg)
   app.component('v-card-title', VCardTitle)
   app.component('v-card-text', VCardText)
+  app.component('v-card-actions', VCardActions)
   app.component('v-icon', VIcon)
   app.component('v-dialog', VDialog)
   app.component('v-btn', VBtn)
@@ -57,6 +61,11 @@ const install = (app: any) => {
   app.component('v-checkbox', VCheckbox)
   app.component('v-footer', VFooter)
   app.component('v-divider', VDivider)
+  app.component('v-slide-x-transition', VSlideXTransition)
+  app.component('v-slide-x-reverse-transition', VSlideXReverseTransition)
+  app.component('v-hover', VHover)
+  app.component('v-spacer', VSpacer)
+  app.component('v-toolbar', VToolbar)
 }
 
 export default install

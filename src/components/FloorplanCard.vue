@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+
 import FloorplanDialog from './FloorplanDialog.vue'
+import ImgCarousel from './ImgCarousel.vue'
+
 import { Floorplan } from '@/types'
 import { useDisplay, useTheme } from 'vuetify'
 
@@ -13,10 +16,13 @@ const props = defineProps<{
   rounded: number
   elevation: number
   transparent: boolean
+  handleDownload?: (id: number) => void
+  handleDelete?: (id: number) => void
+  deleteLoading?: boolean
 }>()
 const dialog = ref(false)
 
-const displayUrl = `${props.awsUrl}${props.item.imgKeys[0]}`
+const imgKeys = props.item.imgKeys.map((key) => `${props.awsUrl}${key}`)
 const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
 </script>
 <template>
@@ -29,7 +35,7 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
     :class="dark ?? 'text-grey-lighten-2'"
     :elevation="elevation"
   >
-    <v-img :style="borderRadius" :src="displayUrl" height="250" cover></v-img>
+    <ImgCarousel :keys="imgKeys" :borderRadius="borderRadius" />
     <v-card-title class="font-weight-light">{{ item.name }}</v-card-title>
     <v-card-text class="d-flex align-center font-weight-light">
       <div class="pr-3 d-flex align-center">
@@ -50,12 +56,15 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
       </div>
     </v-card-text>
 
-    <v-dialog v-model="dialog" max-width="700" :fullscreen="xs" activator="parent">
+    <v-dialog v-model="dialog" :fullscreen="xs" activator="parent" max-width="2500">
       <FloorplanDialog
         :awsUrl="awsUrl"
         :item="item"
         :close="() => (dialog = false)"
-        :rounded="rounded"
+        :borderRadius="borderRadius"
+        :handleDownload="handleDownload"
+        :handleDelete="handleDelete"
+        :deleteLoading="deleteLoading"
       />
     </v-dialog>
   </v-card>
