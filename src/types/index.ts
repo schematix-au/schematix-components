@@ -34,6 +34,7 @@ export type NewFloorplan = {
   premium: boolean
   masterPosRear: boolean
   floorplanTypeId: number
+  floorplanType: FloorplanType
 }
 export type Floorplan = NewFloorplan & DbVals
 
