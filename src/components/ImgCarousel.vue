@@ -21,7 +21,7 @@ const carouselClick = (direction: 'left' | 'right') => {
   }
 }
 
-const touch = matchMedia('(hover: none)').matches
+const touch = window.matchMedia('(pointer: coarse)').matches
 </script>
 
 <template>
