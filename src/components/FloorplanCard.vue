@@ -39,7 +39,7 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
         :elevation="elevation"
       >
         <ImgCarousel :keys="imgKeys" :borderRadius="borderRadius" :hover="isHovering" />
-        <v-card-title class="font-weight-light">{{ item.name }} test</v-card-title>
+        <v-card-title class="font-weight-light">{{ item.name }}</v-card-title>
         <v-card-text class="d-flex align-center font-weight-light">
           <div class="pr-3 d-flex align-center">
             <v-icon class="pr-2" icon="mdi-bed-queen-outline"></v-icon>
