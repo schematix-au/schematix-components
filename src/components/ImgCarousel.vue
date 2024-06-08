@@ -8,6 +8,7 @@ const props = defineProps<{
   maxHeight?: string
   clickable?: boolean
   borderRadius?: string
+  hover?: boolean
 }>()
 
 const active = ref(0)
@@ -19,6 +20,8 @@ const carouselClick = (direction: 'left' | 'right') => {
     active.value = active.value === props.keys.length - 1 ? 0 : active.value + 1
   }
 }
+
+const touch = matchMedia('(hover: none)').matches
 </script>
 
 <template>
@@ -27,7 +30,7 @@ const carouselClick = (direction: 'left' | 'right') => {
       <div v-bind="props" class="position-relative">
         <v-slide-x-transition v-if="keys.length > 1">
           <v-btn
-            v-if="isHovering"
+            v-if="isHovering || hover || touch"
             icon="mdi-chevron-left"
             size="small"
             variant="tonal"
@@ -39,7 +42,7 @@ const carouselClick = (direction: 'left' | 'right') => {
 
         <v-slide-x-reverse-transition v-if="keys.length > 1">
           <v-btn
-            v-if="isHovering"
+            v-if="isHovering || hover || touch"
             icon="mdi-chevron-right"
             size="small"
             variant="tonal"
