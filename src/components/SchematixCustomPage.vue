@@ -6,6 +6,7 @@ import FloorplanCard from './FloorplanCard.vue'
 import { TextFieldVariant, NavDensity } from '@/types'
 import { useFloorplans } from '../hooks/useFloorplans'
 import { useFloorplanTypes } from '../hooks/useFloorplanTypes'
+import { parsePhoneNumberFromString } from 'libphonenumber-js'
 
 interface Props {
   baseUrl: string
@@ -142,6 +143,13 @@ const onClickBack = () => {
 }
 
 const href = (url: string) => (location.href = url)
+
+const phoneNumber = computed(() => {
+  if (!props.phone) return undefined
+  const val = parsePhoneNumberFromString(props.phone, 'AU')
+  if (!val) return undefined
+  return { number: val.number, formatted: val.formatNational() }
+})
 </script>
 
 <template>
@@ -254,9 +262,14 @@ const href = (url: string) => (location.href = url)
               {{ email }}
             </v-btn>
           </v-col>
-          <v-col cols="12" class="d-flex justify-center align-center mt-5" v-if="phone">
-            <v-btn variant="text" prepend-icon="mdi-phone" class="text-none" href="">
-              {{ phone }}
+          <v-col cols="12" class="d-flex justify-center align-center mt-5" v-if="phoneNumber">
+            <v-btn
+              variant="text"
+              prepend-icon="mdi-phone"
+              class="text-none"
+              :href="`tel: ${phoneNumber.number}`"
+            >
+              {{ phoneNumber.formatted }}
             </v-btn>
           </v-col>
           <v-col cols="12" class="d-flex justify-center my-5">
