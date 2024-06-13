@@ -31,23 +31,40 @@ export type NewFloorplan = {
   garages: number
   imgKeys: string[]
   salesKeys: string[]
+  fileKeys: string[]
   premium: boolean
   masterPosRear: boolean
   floorplanTypeId: number
-  floorplanType: FloorplanType
 }
-export type Floorplan = NewFloorplan & DbVals
+export type Floorplan = NewFloorplan & { floorplanType: FloorplanType } & DbVals
 
 export type NewFloorplanType = {
   name: string
 }
 export type FloorplanType = NewFloorplanType & DbVals
 
-export type NewUser = {
-  email: string
-  username?: string
-  password: string
-  admin?: boolean
-  domain?: string
+export type NewOrganisation = {
+  slug: string
+  siteSettings: SiteSettings
 }
-export type User = NewUser & DbVals
+export type Organisation = NewOrganisation & DbVals
+
+export type SiteSettings = {
+  title: string
+  logo?: string
+  homeUrl?: string
+  contactUrl?: string
+  email?: string
+  phone?: string
+  darkMode: boolean
+  expandedDefault: boolean
+  navBarDarkMode?: boolean
+  navElevation: number
+  cardRounded: number
+  cardElevation: number
+  cardTransparent: boolean
+  textFieldRounded: number
+  textFieldVariant?: TextFieldVariant
+  filterElevation: number
+  footerDarkMode?: boolean
+}

@@ -21,22 +21,21 @@ const props = defineProps<{
   onClickFront: () => void
   onClickBack: () => void
   openDefault?: number
-  textFieldVariant?: TextFieldVariant
   textFieldRounded: number
+  textFieldVariant?: TextFieldVariant
+  filterElevation: number
   cardRounded: number
-  elevation?: number
 }>()
 
 const open = ref(props.openDefault)
 
 watch(
   () => props.openDefault,
-  () => {
-    open.value = props.openDefault
-  }
+  () => (open.value = props.openDefault)
 )
 
 const borderRadius = computed(() => `${props.textFieldRounded}px`)
+const variant = computed(() => props.textFieldVariant || undefined)
 
 const orderByOptions = [
   { label: 'Size (lower to higher)', orderBy: 'size', direction: 'asc' },
@@ -48,13 +47,13 @@ const orderByOptions = [
   <v-expansion-panels class="mb-5" v-model="open">
     <v-expansion-panel
       title="Filters"
-      :elevation="elevation"
+      :elevation="filterElevation"
       :style="`border-radius: ${cardRounded}px`"
     >
       <v-expansion-panel-text>
         <v-container class="px-0">
           <v-row>
-            <v-col cols="12" sm="4" md="3" lg="2" class="py-0">
+            <v-col cols="12" sm="4" md="3" class="py-0">
               <v-select
                 v-model="floorplanTypeId"
                 label="Floorplan Types"
@@ -62,7 +61,7 @@ const orderByOptions = [
                 item-title="name"
                 item-value="id"
                 clearable
-                :variant="textFieldVariant || undefined"
+                :variant="variant"
               ></v-select>
             </v-col>
             <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
@@ -71,7 +70,7 @@ const orderByOptions = [
                 label="Bedrooms"
                 :items="[1, 2, 3, 4, 5, 6]"
                 clearable
-                :variant="textFieldVariant || undefined"
+                :variant="variant"
               ></v-select>
             </v-col>
             <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
@@ -80,7 +79,7 @@ const orderByOptions = [
                 label="Bathrooms"
                 :items="[1, 2, 3, 4, 5, 6]"
                 clearable
-                :variant="textFieldVariant || undefined"
+                :variant="variant"
               ></v-select>
             </v-col>
             <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
@@ -89,7 +88,7 @@ const orderByOptions = [
                 label="Garages"
                 :items="[1, 2, 3, 4, 5, 6]"
                 clearable
-                :variant="textFieldVariant || undefined"
+                :variant="variant"
               ></v-select>
             </v-col>
 
@@ -101,7 +100,7 @@ const orderByOptions = [
                 return-object
                 label="Sort by"
                 clearable
-                :variant="textFieldVariant || undefined"
+                :variant="variant"
               ></v-select>
             </v-col>
           </v-row>
@@ -115,13 +114,13 @@ const orderByOptions = [
                     label="Min"
                     v-model.number="minSize"
                     class="pr-1"
-                    :variant="textFieldVariant || undefined"
+                    :variant="variant"
                   ></v-text-field>
                   <v-text-field
                     label="Max"
                     v-model.number="maxSize"
                     class="pl-1"
-                    :variant="textFieldVariant || undefined"
+                    :variant="variant"
                   ></v-text-field>
                 </div>
               </div>
@@ -134,13 +133,13 @@ const orderByOptions = [
                     label="Min"
                     v-model.number="minWidth"
                     class="pr-1"
-                    :variant="textFieldVariant || undefined"
+                    :variant="variant"
                   ></v-text-field>
                   <v-text-field
                     label="Max"
                     v-model.number="maxWidth"
                     class="pl-1"
-                    :variant="textFieldVariant || undefined"
+                    :variant="variant"
                   ></v-text-field>
                 </div>
               </div>
@@ -153,13 +152,13 @@ const orderByOptions = [
                     label="Min"
                     v-model.number="minLength"
                     class="pr-1"
-                    :variant="textFieldVariant || undefined"
+                    :variant="variant"
                   ></v-text-field>
                   <v-text-field
                     label="Max"
                     v-model.number="maxLength"
                     class="pl-1"
-                    :variant="textFieldVariant || undefined"
+                    :variant="variant"
                   ></v-text-field>
                 </div>
               </div>
