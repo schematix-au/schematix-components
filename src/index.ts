@@ -1,8 +1,18 @@
-import SchematixCustomPage from './components/SchematixCustomPage.vue'
-import FloorplanCard from './components/FloorplanCard.vue'
+import SchematixAppBar from './components/SchematixAppBar.vue'
+import SchematixFooter from './components/SchematixFooter.vue'
+import SchematixFloorplan from './components/SchematixFloorplan.vue'
+import SchematixFloorplanCard from './components/SchematixFloorplanCard.vue'
+import SchematixFilters from './components/SchematixFilters.vue'
+
 import install from '@/install'
-export default SchematixCustomPage
 
 export * from '@/types'
 
-export { SchematixCustomPage, FloorplanCard, install }
+export {
+  SchematixAppBar,
+  SchematixFooter,
+  SchematixFloorplan,
+  SchematixFloorplanCard,
+  SchematixFilters,
+  install
+}

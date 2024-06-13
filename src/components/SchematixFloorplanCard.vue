@@ -1,29 +1,37 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 
-import FloorplanDialog from './FloorplanDialog.vue'
 import ImgCarousel from './ImgCarousel.vue'
 
 import { Floorplan } from '@/types'
-import { useDisplay, useTheme } from 'vuetify'
+import { useTheme } from 'vuetify'
 
-const { xs } = useDisplay()
 const { current } = useTheme()
 const dark = current.value.dark
 const props = defineProps<{
   awsUrl: string
   item: Floorplan
-  rounded: number
-  elevation: number
-  transparent: boolean
+  slug?: string
+  cardRounded: number
+  cardElevation: number
+  cardTransparent: boolean
   handleDownload?: (id: number) => void
   handleDelete?: (id: number) => void
   deleteLoading?: boolean
+  demo?: boolean
+  setDemoItem?: (item: Floorplan) => void
 }>()
-const dialog = ref(false)
+
+const to = !props.demo ? `/${props.slug || 'floorplans'}/${props.item.name}` : undefined
 
 const imgKeys = props.item.imgKeys.map((key) => `${props.awsUrl}${key}`)
-const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
+const borderRadius = computed(() => `border-radius: ${props.cardRounded}px`)
+
+const click = () => {
+  if (props.demo && props.setDemoItem) {
+    props.setDemoItem(props.item)
+  }
+}
 </script>
 <template>
   <v-hover>
@@ -32,11 +40,12 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
         v-bind="props"
         :style="borderRadius"
         ripple
-        @click="() => (dialog = !dialog)"
-        :color="transparent ? 'transparent' : ''"
+        :to="to"
+        @click="click"
+        :color="cardTransparent ? 'transparent' : ''"
         flat
         :class="dark ?? 'text-grey-lighten-2'"
-        :elevation="elevation"
+        :elevation="cardElevation"
       >
         <ImgCarousel :keys="imgKeys" :borderRadius="borderRadius" :hover="isHovering" />
         <v-card-title class="font-weight-light d-flex justify-space-between align-center">
@@ -64,16 +73,4 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
       </v-card>
     </template>
   </v-hover>
-
-  <v-dialog v-model="dialog" :fullscreen="xs" max-width="2500">
-    <FloorplanDialog
-      :awsUrl="awsUrl"
-      :item="item"
-      :close="() => (dialog = false)"
-      :borderRadius="borderRadius"
-      :handleDownload="handleDownload"
-      :handleDelete="handleDelete"
-      :deleteLoading="deleteLoading"
-    />
-  </v-dialog>
 </template>
