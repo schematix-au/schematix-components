@@ -25,7 +25,9 @@ const navbarTheme = computed(() => {
     <template v-slot:prepend v-if="logo">
       <v-img :src="logo" class="logo-size" :alt="`${settings.title} logo`" />
     </template>
-    <v-app-bar-title class="font-weight-light d-flex">{{ settings.title }}</v-app-bar-title>
+    <v-app-bar-title class="font-weight-light d-flex">
+      {{ settings.title || 'Site Title' }}
+    </v-app-bar-title>
 
     <template v-slot:append>
       <v-btn

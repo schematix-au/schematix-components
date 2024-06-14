@@ -15,9 +15,6 @@ const props = defineProps<{
   cardRounded: number
   cardElevation: number
   cardTransparent: boolean
-  handleDownload?: (id: number) => void
-  handleDelete?: (id: number) => void
-  deleteLoading?: boolean
   demo?: boolean
   setDemoItem?: (item: Floorplan) => void
 }>()
