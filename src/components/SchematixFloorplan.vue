@@ -31,13 +31,13 @@ const rooms = [
 const details = [
   { label: 'Area m<sup>2</sup>', value: props.item.area, suffix: 'm<sup>2</sup>' },
   { label: 'Area Sqs', value: (props.item.area * 0.1076391041671).toFixed(2), suffix: 'sqs' },
-  { label: 'Garage', value: props.item.garageArea, suffix: 'm<sup>2</sup>' },
-  { label: 'Porch', value: props.item.porchArea, suffix: 'm<sup>2</sup>' },
-  { label: 'Alfresco', value: props.item.alfrescoArea, suffix: 'm<sup>2</sup>' },
+  { label: 'Length', value: props.item.length, suffix: 'm' },
+  { label: 'Width', value: props.item.width, suffix: 'm' },
   { label: 'Ground Floor', value: props.item.groundFloorArea, suffix: 'm<sup>2</sup>' },
   { label: 'First Floor', value: props.item.firstFloorArea, suffix: 'm<sup>2</sup>' },
-  { label: 'Length', value: props.item.length, suffix: 'm' },
-  { label: 'Width', value: props.item.width, suffix: 'm' }
+  { label: 'Garage', value: props.item.garageArea, suffix: 'm<sup>2</sup>' },
+  { label: 'Porch', value: props.item.porchArea, suffix: 'm<sup>2</sup>' },
+  { label: 'Alfresco', value: props.item.alfrescoArea, suffix: 'm<sup>2</sup>' }
 ]
 
 const imageClasses = computed(() => {
@@ -59,7 +59,7 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
 </script>
 
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
       <v-col cols="12" class="d-flex justify-space-between">
         <div class="d-flex align-center">
@@ -93,6 +93,7 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
             v-else-if="handleDownload"
             @click="handleDownload(item.id)"
             prepend-icon="mdi-download"
+            variant="text"
           >
             Download
           </v-btn>
@@ -110,7 +111,21 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
               />
             </v-col>
             <v-col sm="6" md="8" lg="12" :class="sm ? 'pl-2' : ''">
-              <v-container class="fill-height border d-flex d-md-none" :style="borderRadius">
+              <div class="fill-height border d-flex d-sm-none pa-4" :style="borderRadius">
+                <div
+                  class="d-flex align-center justify-center font-weight-light flex-grow-1"
+                  :class="xs ? 'text-h6' : 'text-h5'"
+                  v-for="(room, i) in rooms"
+                  :key="i"
+                >
+                  <v-icon class="pr-2" :icon="room.icon" :size="30"></v-icon>
+                  {{ room.value }}
+                </div>
+              </div>
+              <v-container
+                class="fill-height border d-none d-sm-flex d-md-none"
+                :style="borderRadius"
+              >
                 <v-row :class="sm && 'fill-height'">
                   <v-col
                     cols="3"
@@ -123,7 +138,7 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
                       class="d-flex align-center font-weight-light"
                       :class="xs ? 'text-h6' : 'text-h5'"
                     >
-                      <v-icon class="pr-2 mr-2" :icon="room.icon" :size="xs ? '30' : '40'"></v-icon>
+                      <v-icon class="pr-2" :icon="room.icon" :size="40"></v-icon>
                       {{ room.value }}
                     </div>
                   </v-col>
@@ -137,7 +152,7 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
                     v-for="(room, i) in rooms"
                     :key="i"
                   >
-                    <v-icon class="pr-2 mr-2" :icon="room.icon" :size="xs ? '30' : '40'"></v-icon>
+                    <v-icon class="pr-2" :icon="room.icon" :size="30"></v-icon>
                     {{ room.value }}
                   </div>
                 </v-container>
