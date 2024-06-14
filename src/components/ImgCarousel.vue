@@ -35,7 +35,7 @@ const touch = window.matchMedia('(pointer: coarse)').matches
             size="small"
             variant="tonal"
             color="black"
-            @click.prevent="() => carouselClick('left')"
+            @click.stop.prevent="() => carouselClick('left')"
             style="position: absolute; bottom: 10px; z-index: 1; left: 10px"
           ></v-btn>
         </v-slide-x-transition>
@@ -47,7 +47,7 @@ const touch = window.matchMedia('(pointer: coarse)').matches
             size="small"
             variant="tonal"
             color="black"
-            @click.prevent="() => carouselClick('right')"
+            @click.stop.prevent="() => carouselClick('right')"
             style="position: absolute; bottom: 10px; z-index: 1; right: 10px"
           ></v-btn>
         </v-slide-x-reverse-transition>
