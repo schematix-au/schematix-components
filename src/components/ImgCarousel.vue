@@ -8,7 +8,7 @@ const props = defineProps<{
   maxHeight?: string
   clickable?: boolean
   borderRadius?: string
-  hover?: boolean
+  hover?: boolean | null
 }>()
 
 const active = ref(0)
