@@ -32,7 +32,6 @@ export type NewFloorplan = {
   imgKeys: string[]
   salesKeys: string[]
   fileKeys: string[]
-  premium: boolean
   masterPosRear: boolean
   floorplanTypeId: number
 }
