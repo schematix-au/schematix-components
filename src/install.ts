@@ -24,6 +24,7 @@ import { VDivider } from 'vuetify/components/VDivider'
 import { VSlideXTransition, VSlideXReverseTransition } from 'vuetify/components/transitions'
 import { VHover } from 'vuetify/components/VHover'
 import { VToolbar } from 'vuetify/components/VToolbar'
+import { VTooltip } from 'vuetify/components/VTooltip'
 
 // There seems to be a bug in Vue where the imported `App` type from 'vue'
 // in this lib is not of an assignable type to the `app` that is passed
@@ -66,6 +67,7 @@ const install = (app: any) => {
   app.component('v-hover', VHover)
   app.component('v-spacer', VSpacer)
   app.component('v-toolbar', VToolbar)
+  app.component('v-tooltip', VTooltip)
 }
 
 export default install
