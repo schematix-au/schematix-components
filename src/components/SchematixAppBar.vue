@@ -23,7 +23,7 @@ const navbarTheme = computed(() => {
 <template>
   <v-app-bar :elevation="settings.navElevation" :theme="navbarTheme">
     <template v-slot:prepend v-if="logo">
-      <v-img :src="logo" class="logo-size" :alt="`${settings.title} logo`" />
+      <v-img :src="logo" class="logo-size ml-2" :alt="`${settings.title} logo`" />
     </template>
     <v-app-bar-title class="font-weight-light d-flex">
       {{ settings.title || 'Site Title' }}
