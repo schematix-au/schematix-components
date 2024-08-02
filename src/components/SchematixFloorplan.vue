@@ -101,6 +101,7 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
                 @click="handleDownload(item.id)"
                 prepend-icon="mdi-download"
                 variant="text"
+                :disabled="!subscribed"
               >
                 Download
               </v-btn>
