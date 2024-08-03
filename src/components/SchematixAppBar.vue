@@ -21,7 +21,7 @@ const navbarTheme = computed(() => {
 </script>
 
 <template>
-  <v-app-bar :elevation="settings.navElevation" :theme="navbarTheme">
+  <v-app-bar :elevation="settings.navElevation" :theme="navbarTheme" class="px-2">
     <template v-slot:prepend v-if="logo">
       <v-img :src="logo" class="logo-size" :alt="`${settings.title} logo`" />
     </template>
@@ -30,15 +30,15 @@ const navbarTheme = computed(() => {
     </v-app-bar-title>
 
     <template v-slot:append>
-      <v-btn
-        v-if="settings.homeUrl && smAndUp"
-        :href="settings.homeUrl"
-        variant="plain"
-        :class="settings.contactUrl ?? 'mr-2'"
-      >
+      <v-btn v-if="settings.homeUrl && smAndUp" :href="settings.homeUrl" variant="plain">
         Home
       </v-btn>
-      <v-btn v-if="settings.contactUrl && smAndUp" :href="settings.contactUrl" variant="plain">
+      <v-btn
+        v-if="settings.contactUrl && smAndUp"
+        :href="settings.contactUrl"
+        variant="plain"
+        class="ml-2"
+      >
         Contact
       </v-btn>
       <v-app-bar-nav-icon
