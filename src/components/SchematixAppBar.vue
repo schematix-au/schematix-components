@@ -21,7 +21,7 @@ const navbarTheme = computed(() => {
 </script>
 
 <template>
-  <v-app-bar :elevation="settings.navElevation" :theme="navbarTheme" class="mx-2">
+  <v-app-bar :elevation="settings.navElevation" :theme="navbarTheme" class="px-2">
     <template v-slot:prepend v-if="logo">
       <v-img :src="logo" class="logo-size" :alt="`${settings.title} logo`" />
     </template>
