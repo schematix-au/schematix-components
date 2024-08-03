@@ -14,6 +14,7 @@ const props = defineProps<{
   handleDownload?: (id: number) => void
   handleDelete?: (id: number) => void
   deleteLoading?: boolean
+  subscribed?: boolean
 }>()
 
 const deleteDialog = ref(false)
@@ -89,14 +90,23 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
             color="primary"
             size="small"
           ></v-btn>
-          <v-btn
+          <v-tooltip
             v-else-if="handleDownload"
-            @click="handleDownload(item.id)"
-            prepend-icon="mdi-download"
-            variant="text"
+            :disabled="subscribed"
+            text="An active subscription is required to use this feature"
           >
-            Download
-          </v-btn>
+            <template v-slot:activator="{ props }">
+              <v-btn
+                v-bind="props"
+                @click="handleDownload(item.id)"
+                prepend-icon="mdi-download"
+                variant="text"
+                :disabled="!subscribed"
+              >
+                Download
+              </v-btn>
+            </template>
+          </v-tooltip>
         </div>
       </v-col>
       <v-col cols="12" lg="4">
