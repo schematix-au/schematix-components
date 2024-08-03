@@ -30,21 +30,21 @@ const navbarTheme = computed(() => {
     </v-app-bar-title>
 
     <template v-slot:append>
-      <v-btn
-        v-if="settings.homeUrl && smAndUp"
-        :href="settings.homeUrl"
-        variant="plain"
-        :class="settings.contactUrl ?? 'mr-2'"
-      >
+      <v-btn v-if="settings.homeUrl && smAndUp" :href="settings.homeUrl" variant="plain">
         Home
       </v-btn>
-      <v-btn v-if="settings.contactUrl && smAndUp" :href="settings.contactUrl" variant="plain">
+      <v-btn
+        v-if="settings.contactUrl && smAndUp"
+        :href="settings.contactUrl"
+        variant="plain"
+        class="ml-2"
+      >
         Contact
       </v-btn>
       <v-app-bar-nav-icon
         v-if="(settings.homeUrl || settings.contactUrl) && !smAndUp"
         @click.stop="drawer = !drawer"
-      />
+      ></v-app-bar-nav-icon>
     </template>
   </v-app-bar>
   <v-navigation-drawer v-model="drawer" :temporary="false" disable-resize-watcher>
