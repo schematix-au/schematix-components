@@ -96,15 +96,16 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
             text="An active subscription is required to use this feature"
           >
             <template v-slot:activator="{ props }">
-              <v-btn
-                v-bind="props"
-                @click="handleDownload(item.id)"
-                prepend-icon="mdi-download"
-                variant="text"
-                :disabled="!subscribed"
-              >
-                Download
-              </v-btn>
+              <div v-bind="props">
+                <v-btn
+                  @click="handleDownload(item.id)"
+                  prepend-icon="mdi-download"
+                  variant="text"
+                  :disabled="!subscribed"
+                >
+                  Download
+                </v-btn>
+              </div>
             </template>
           </v-tooltip>
         </div>
