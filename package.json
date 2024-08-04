@@ -1,6 +1,6 @@
 {
   "name": "schematix-components",
-  "version": "0.0.0-beta.8",
+  "version": "0.1.0-beta.1",
   "devDependencies": {
     "@mdi/font": "^7.4.47",
     "@oneblink/release-cli": "^3.2.1",
