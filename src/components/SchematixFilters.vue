@@ -39,8 +39,8 @@ const borderRadius = computed(() => `${props.textFieldRounded}px`)
 const variant = computed(() => props.textFieldVariant || undefined)
 
 const orderByOptions = [
-  { label: 'Size (lower to higher)', orderBy: 'size', direction: 'asc' },
-  { label: 'Size (higher to lower)', orderBy: 'size', direction: 'desc' }
+  { label: 'Size (lower to higher)', orderBy: 'area', direction: 'asc' },
+  { label: 'Size (higher to lower)', orderBy: 'area', direction: 'desc' }
 ]
 </script>
 
@@ -114,7 +114,6 @@ const orderByOptions = [
                 item-title="label"
                 return-object
                 label="Sort by"
-                clearable
                 :variant="variant"
               ></v-select>
             </v-col>
