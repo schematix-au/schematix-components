@@ -41,7 +41,8 @@ const details = [
   { label: 'Alfresco', value: props.item.alfrescoArea, suffix: 'm<sup>2</sup>' }
 ].filter(({ value }) => value != 0)
 
-const remainingDetails = details.length - (details.length % 3) - 1
+const lastFullRowIndex = details.length - (details.length % 3) - 1
+const remainingDetails = lastFullRowIndex === 8 ? 5 : lastFullRowIndex
 
 const imageClasses = computed(() => {
   const classes = []
