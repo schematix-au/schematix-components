@@ -6,7 +6,7 @@ const floorplanTypeId = defineModel('floorplanTypeId', { type: Number, default: 
 const bedrooms = defineModel('bedrooms', { type: Number, default: undefined })
 const bathrooms = defineModel('bathrooms', { type: Number, default: undefined })
 const garages = defineModel('garages', { type: Number, default: undefined })
-const living = defineModel('living', { type: Number, default: undefined })
+const livingRooms = defineModel('livingRooms', { type: Number, default: undefined })
 const orderBy = defineModel('orderBy', { type: Object, default: undefined })
 const minSize = defineModel('minSize', { type: Number, default: undefined })
 const maxSize = defineModel('maxSize', { type: Number, default: undefined })
@@ -98,8 +98,8 @@ const orderByOptions = [
 
             <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
               <v-select
-                v-model="living"
-                label="Living"
+                v-model="livingRooms"
+                label="Living Rooms"
                 prepend-inner-icon="mdi-sofa-single-outline"
                 :items="[1, 2, 3, 4, 5, 6]"
                 clearable

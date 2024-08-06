@@ -26,7 +26,7 @@ const rooms = [
   { icon: 'mdi-bed-queen-outline', value: props.item.bedrooms },
   { icon: 'mdi-shower', value: props.item.bathrooms },
   { icon: 'mdi-car-outline', value: props.item.garages },
-  { icon: 'mdi-sofa-single-outline', value: props.item.living }
+  { icon: 'mdi-sofa-single-outline', value: props.item.livingRooms }
 ]
 
 const details = [

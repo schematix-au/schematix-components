@@ -67,7 +67,7 @@ const click = () => {
               </div>
               <div class="pr-3 d-flex align-center">
                 <v-icon class="pr-2" icon="mdi-sofa-single-outline" size="20" />
-                {{ item.living }}
+                {{ item.livingRooms }}
               </div>
             </div>
             <div class="d-flex align-center">
