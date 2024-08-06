@@ -41,7 +41,7 @@ const details = [
   { label: 'Alfresco', value: props.item.alfrescoArea, suffix: 'm<sup>2</sup>' }
 ].filter(({ value }) => value != 0)
 
-const remainingDetails = details.length % 3
+const remainingDetails = details.length - (details.length % 3) - 1
 
 const imageClasses = computed(() => {
   const classes = []
@@ -176,8 +176,7 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
                       lg="6"
                       class="d-flex justify-space-between"
                       :class="
-                        (md && i > details.length - remainingDetails - 1) ||
-                        i === details.length - 1
+                        (md && i > remainingDetails) || i === details.length - 1
                           ? 'border-b-0'
                           : 'border-b'
                       "
@@ -202,7 +201,7 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
             <v-col
               cols="4"
               class="d-flex justify-space-between"
-              :class="i > details.length - remainingDetails - 1 ? 'border-b-0' : 'border-b'"
+              :class="i > remainingDetails ? 'border-b-0' : 'border-b'"
               v-for="(detail, i) in details"
               :key="i"
             >
