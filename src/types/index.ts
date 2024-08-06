@@ -17,7 +17,6 @@ export type NavDensity = 'comfortable' | 'compact' | 'default' | 'prominent'
 
 export type NewFloorplan = {
   name: string
-  size: number
   width: number
   length: number
   area: number
