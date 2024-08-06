@@ -26,7 +26,7 @@ const rooms = [
   { icon: 'mdi-bed-queen-outline', value: props.item.bedrooms },
   { icon: 'mdi-shower', value: props.item.bathrooms },
   { icon: 'mdi-car-outline', value: props.item.garages },
-  { icon: 'mdi-arrow-expand-horizontal', value: props.item.size }
+  { icon: 'mdi-sofa-single-outline', value: props.item.livingRooms }
 ]
 
 const details = [
@@ -39,7 +39,9 @@ const details = [
   { label: 'Garage', value: props.item.garageArea, suffix: 'm<sup>2</sup>' },
   { label: 'Porch', value: props.item.porchArea, suffix: 'm<sup>2</sup>' },
   { label: 'Alfresco', value: props.item.alfrescoArea, suffix: 'm<sup>2</sup>' }
-]
+].filter(({ value }) => value != 0)
+
+const remainingDetails = details.length - (details.length % 3) - 1
 
 const imageClasses = computed(() => {
   const classes = []
@@ -173,14 +175,17 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
                       md="4"
                       lg="6"
                       class="d-flex justify-space-between"
-                      :class="(md && i > 5) || i === details.length - 1 ? 'border-b-0' : 'border-b'"
+                      :class="
+                        (md && i > remainingDetails) || i === details.length - 1
+                          ? 'border-b-0'
+                          : 'border-b'
+                      "
                       v-for="(detail, i) in details"
                       :key="i"
                     >
                       <span v-html="detail.label"></span>
                       <span class="font-weight-bold">
-                        {{ detail.value }}
-                        <span v-html="detail.suffix"></span>
+                        {{ detail.value }}<span v-html="detail.suffix"></span>
                       </span>
                     </v-col>
                   </v-row>
@@ -196,14 +201,13 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
             <v-col
               cols="4"
               class="d-flex justify-space-between"
-              :class="i > 5 ? 'border-b-0' : 'border-b'"
+              :class="i > remainingDetails ? 'border-b-0' : 'border-b'"
               v-for="(detail, i) in details"
               :key="i"
             >
               <span v-html="detail.label"></span>
               <span class="font-weight-bold">
-                {{ detail.value }}
-                <span v-html="detail.suffix"></span>
+                {{ detail.value }}<span v-html="detail.suffix"></span>
               </span>
             </v-col>
           </v-row>
@@ -224,8 +228,7 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
             >
               <span v-html="detail.label"></span>
               <span class="font-weight-bold">
-                {{ detail.value }}
-                <span v-html="detail.suffix"></span>
+                {{ detail.value }}<span v-html="detail.suffix"></span>
               </span>
             </v-col>
           </v-row>

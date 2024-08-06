@@ -29,6 +29,7 @@ export type NewFloorplan = {
   bathrooms: number
   bedrooms: number
   garages: number
+  livingRooms: number
   imgKeys: string[]
   salesKeys: string[]
   fileKeys: string[]

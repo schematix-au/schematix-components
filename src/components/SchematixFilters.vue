@@ -6,6 +6,7 @@ const floorplanTypeId = defineModel('floorplanTypeId', { type: Number, default: 
 const bedrooms = defineModel('bedrooms', { type: Number, default: undefined })
 const bathrooms = defineModel('bathrooms', { type: Number, default: undefined })
 const garages = defineModel('garages', { type: Number, default: undefined })
+const livingRooms = defineModel('livingRooms', { type: Number, default: undefined })
 const orderBy = defineModel('orderBy', { type: Object, default: undefined })
 const minSize = defineModel('minSize', { type: Number, default: undefined })
 const maxSize = defineModel('maxSize', { type: Number, default: undefined })
@@ -38,8 +39,8 @@ const borderRadius = computed(() => `${props.textFieldRounded}px`)
 const variant = computed(() => props.textFieldVariant || undefined)
 
 const orderByOptions = [
-  { label: 'Size (lower to higher)', orderBy: 'size', direction: 'asc' },
-  { label: 'Size (higher to lower)', orderBy: 'size', direction: 'desc' }
+  { label: 'Size (lower to higher)', orderBy: 'area', direction: 'asc' },
+  { label: 'Size (higher to lower)', orderBy: 'area', direction: 'desc' }
 ]
 </script>
 
@@ -53,7 +54,7 @@ const orderByOptions = [
       <v-expansion-panel-text>
         <v-container class="px-0">
           <v-row>
-            <v-col cols="12" sm="4" md="3" class="py-0">
+            <v-col cols="12" sm="4" md="3" lg="2" class="py-0">
               <v-select
                 v-model="floorplanTypeId"
                 label="Floorplan Types"
@@ -68,6 +69,7 @@ const orderByOptions = [
               <v-select
                 v-model="bedrooms"
                 label="Bedrooms"
+                prepend-inner-icon="mdi-bed-queen-outline"
                 :items="[1, 2, 3, 4, 5, 6]"
                 clearable
                 :variant="variant"
@@ -77,6 +79,7 @@ const orderByOptions = [
               <v-select
                 v-model="bathrooms"
                 label="Bathrooms"
+                prepend-inner-icon="mdi-shower"
                 :items="[1, 2, 3, 4, 5, 6]"
                 clearable
                 :variant="variant"
@@ -86,6 +89,18 @@ const orderByOptions = [
               <v-select
                 v-model="garages"
                 label="Garages"
+                prepend-inner-icon="mdi-car-outline"
+                :items="[1, 2, 3, 4, 5, 6]"
+                clearable
+                :variant="variant"
+              ></v-select>
+            </v-col>
+
+            <v-col cols="6" sm="4" md="3" lg="2" class="py-0">
+              <v-select
+                v-model="livingRooms"
+                label="Living Rooms"
+                prepend-inner-icon="mdi-sofa-single-outline"
                 :items="[1, 2, 3, 4, 5, 6]"
                 clearable
                 :variant="variant"
@@ -99,7 +114,6 @@ const orderByOptions = [
                 item-title="label"
                 return-object
                 label="Sort by"
-                clearable
                 :variant="variant"
               ></v-select>
             </v-col>
@@ -127,7 +141,7 @@ const orderByOptions = [
             </v-col>
             <v-col cols="12" sm="4" md="3" xl="2" class="py-0">
               <div class="d-flex flex-column">
-                <div class="pb-2">{{ 'House width(m\u00B2)' }}</div>
+                <div class="pb-2">{{ 'House width(m)' }}</div>
                 <div class="d-flex flex-row">
                   <v-text-field
                     label="Min"
@@ -146,7 +160,7 @@ const orderByOptions = [
             </v-col>
             <v-col cols="12" sm="4" md="3" xl="2" class="py-0">
               <div class="d-flex flex-column">
-                <div class="pb-2">{{ 'House length(m\u00B2)' }}</div>
+                <div class="pb-2">{{ 'House length(m)' }}</div>
                 <div class="d-flex flex-row">
                   <v-text-field
                     label="Min"

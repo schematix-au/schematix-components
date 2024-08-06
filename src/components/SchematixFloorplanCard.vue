@@ -45,28 +45,37 @@ const click = () => {
         :elevation="cardElevation"
       >
         <ImgCarousel :keys="imgKeys" :borderRadius="borderRadius" :hover="isHovering" />
-        <v-card-title class="font-weight-light d-flex justify-space-between align-center">
-          <span>{{ item.name }}</span>
-          <span>{{ item.floorplanType.name }}</span>
-        </v-card-title>
-        <v-card-text class="d-flex align-center font-weight-light">
-          <div class="pr-3 d-flex align-center">
-            <v-icon class="pr-2" icon="mdi-bed-queen-outline"></v-icon>
-            {{ item.bedrooms }}
+        <div class="pa-3">
+          <div class="d-flex justify-space-between align-center mb-2">
+            <span class="text-h5 font-weight-light">{{ item.name }}</span>
+            <span class="text-h6 font-weight-light">{{ item.floorplanType.name }}</span>
           </div>
-          <div class="pr-3 d-flex align-center">
-            <v-icon class="pr-2" icon="mdi-shower"></v-icon>
-            {{ item.bathrooms }}
+
+          <div class="d-flex align-center justify-space-between text-body-2">
+            <div class="d-flex align-center">
+              <div class="pr-3 d-flex align-center">
+                <v-icon class="pr-2" icon="mdi-bed-queen-outline" size="20" />
+                {{ item.bedrooms }}
+              </div>
+              <div class="pr-3 d-flex align-center">
+                <v-icon class="pr-2" icon="mdi-shower" size="20" />
+                {{ item.bathrooms }}
+              </div>
+              <div class="pr-3 d-flex align-center">
+                <v-icon class="pr-2" icon="mdi-car-outline" size="20" />
+                {{ item.garages }}
+              </div>
+              <div class="pr-3 d-flex align-center">
+                <v-icon class="pr-2" icon="mdi-sofa-single-outline" size="20" />
+                {{ item.livingRooms }}
+              </div>
+            </div>
+            <div class="d-flex align-center">
+              <v-icon class="pr-2" icon="mdi-arrow-expand-horizontal" size="20" />
+              {{ item.area }}m<sup>2</sup>
+            </div>
           </div>
-          <div class="pr-3 d-flex align-center">
-            <v-icon class="pr-2" icon="mdi-car-outline"></v-icon>
-            {{ item.garages }}
-          </div>
-          <div class="d-flex align-center">
-            <v-icon class="pr-2" icon="mdi-arrow-expand-horizontal"></v-icon>
-            {{ item.size }}
-          </div>
-        </v-card-text>
+        </div>
       </v-card>
     </template>
   </v-hover>
