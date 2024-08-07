@@ -4,6 +4,7 @@ import { useDisplay } from 'vuetify'
 import { Floorplan } from '@/types'
 
 import ImgCarousel from './ImgCarousel.vue'
+import DetailItem from './DetailItem.vue'
 
 const { xs, sm, md, lgAndUp } = useDisplay()
 const props = defineProps<{
@@ -31,20 +32,19 @@ const rooms = [
 
 const details = [
   { label: 'Area m<sup>2</sup>', value: props.item.area, suffix: 'm<sup>2</sup>' },
-  { label: 'Area Sqs', value: (props.item.area * 0.1076391041671).toFixed(2), suffix: 'sqs' },
+  {
+    label: 'Area Sqs',
+    value: Number((props.item.area * 0.1076391041671).toFixed(2)),
+    suffix: 'sqs'
+  },
   { label: 'Length', value: props.item.length, suffix: 'm' },
   { label: 'Width', value: props.item.width, suffix: 'm' },
   { label: 'Ground Floor', value: props.item.groundFloorArea, suffix: 'm<sup>2</sup>' },
   { label: 'First Floor', value: props.item.firstFloorArea, suffix: 'm<sup>2</sup>' },
-  { label: 'Garage', value: props.item.garageArea, suffix: 'm<sup>2</sup>' },
+  { label: 'Garage', value: 1, suffix: 'm<sup>2</sup>' },
   { label: 'Porch', value: props.item.porchArea, suffix: 'm<sup>2</sup>' },
   { label: 'Alfresco', value: props.item.alfrescoArea, suffix: 'm<sup>2</sup>' }
 ].filter(({ value }) => value != 0)
-
-const rowLength = 3
-const lastFullRowIndex = details.length - (details.length % rowLength) - 1
-const allRowsPopulated = lastFullRowIndex === 8
-const indexOfLastBorderCell = allRowsPopulated ? 5 : lastFullRowIndex
 
 const imageClasses = computed(() => {
   const classes = []
@@ -127,6 +127,7 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
               />
             </v-col>
             <v-col sm="6" md="8" lg="12" :class="sm ? 'pl-2' : ''">
+              <!-- MOBILE ROOMS -->
               <div class="fill-height border d-flex d-sm-none pa-4" :style="borderRadius">
                 <div
                   class="d-flex align-center justify-center font-weight-light flex-grow-1"
@@ -138,6 +139,8 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
                   {{ room.value }}
                 </div>
               </div>
+
+              <!-- SM ROOMS -->
               <v-container
                 class="fill-height border d-none d-sm-flex d-md-none"
                 :style="borderRadius"
@@ -160,8 +163,13 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
                   </v-col>
                 </v-row>
               </v-container>
-              <div class="fill-height border px-4 d-none d-md-block" :style="borderRadius">
-                <v-container class="d-flex align-center justify-space-between px-0">
+
+              <!-- MD AND UP ROOMS & DETAILS -->
+              <div class="fill-height d-none d-md-block">
+                <div
+                  class="d-flex align-center justify-space-around border py-5"
+                  :style="borderRadius"
+                >
                   <div
                     class="d-flex align-center font-weight-light"
                     :class="xs ? 'text-h6' : 'text-h5'"
@@ -171,26 +179,15 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
                     <v-icon class="pr-2" :icon="room.icon" :size="30"></v-icon>
                     {{ room.value }}
                   </div>
-                </v-container>
-                <v-container fluid class="px-0">
+                </div>
+                <v-container fluid class="px-2">
                   <v-row>
-                    <v-col
-                      md="4"
-                      lg="6"
-                      class="d-flex justify-space-between"
-                      :class="
-                        (md && i > indexOfLastBorderCell) || i === details.length - 1
-                          ? 'border-b-0'
-                          : 'border-b'
-                      "
+                    <DetailItem
                       v-for="(detail, i) in details"
                       :key="i"
-                    >
-                      <span v-html="detail.label"></span>
-                      <span class="font-weight-bold">
-                        {{ detail.value }}<span v-html="detail.suffix"></span>
-                      </span>
-                    </v-col>
+                      :item="detail"
+                      :borderRadius="borderRadius"
+                    />
                   </v-row>
                 </v-container>
               </div>
@@ -198,27 +195,25 @@ const borderRadius = computed(() => `border-radius: ${props.rounded}px`)
           </v-row>
         </v-container>
       </v-col>
+
+      <!-- SM DETAILS -->
       <v-col cols="12" class="pt-1 d-none d-sm-flex d-md-none">
-        <v-container fluid class="pa-0 border pa-4" :style="borderRadius">
+        <v-container fluid class="pa-2" :style="borderRadius">
           <v-row>
-            <v-col
-              cols="4"
-              class="d-flex justify-space-between"
-              :class="i > indexOfLastBorderCell ? 'border-b-0' : 'border-b'"
+            <DetailItem
               v-for="(detail, i) in details"
               :key="i"
-            >
-              <span v-html="detail.label"></span>
-              <span class="font-weight-bold">
-                {{ detail.value }}<span v-html="detail.suffix"></span>
-              </span>
-            </v-col>
+              :item="detail"
+              :borderRadius="borderRadius"
+            />
           </v-row>
         </v-container>
       </v-col>
       <v-col cols="12" lg="8" :class="salesClasses">
         <ImgCarousel :keys="salesKeys" clickable :borderRadius="borderRadius" />
       </v-col>
+
+      <!-- MOBILE DETAILS -->
       <v-col cols="12" class="pt-2 d-flex d-sm-none">
         <v-container fluid class="border" :style="borderRadius">
           <v-row>
