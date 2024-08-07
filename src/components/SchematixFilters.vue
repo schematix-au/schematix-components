@@ -115,6 +115,7 @@ const orderByOptions = [
                 return-object
                 label="Sort by"
                 :variant="variant"
+                clearable
               ></v-select>
             </v-col>
           </v-row>
