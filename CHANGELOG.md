@@ -4,6 +4,10 @@ A record of changes to the project.
 
 ## [Unreleased]
 
+## [0.1.1] - 2024-08-07
+
+##### Release Name: Pine - Hotfix 1
+
 ### Added
 
 - Added icons to filter select fields - bedrooms, bathrooms, garages, living rooms
