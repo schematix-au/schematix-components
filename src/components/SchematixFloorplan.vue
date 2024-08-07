@@ -41,7 +41,7 @@ const details = [
   { label: 'Width', value: props.item.width, suffix: 'm' },
   { label: 'Ground Floor', value: props.item.groundFloorArea, suffix: 'm<sup>2</sup>' },
   { label: 'First Floor', value: props.item.firstFloorArea, suffix: 'm<sup>2</sup>' },
-  { label: 'Garage', value: 1, suffix: 'm<sup>2</sup>' },
+  { label: 'Garage', value: props.item.garages, suffix: 'm<sup>2</sup>' },
   { label: 'Porch', value: props.item.porchArea, suffix: 'm<sup>2</sup>' },
   { label: 'Alfresco', value: props.item.alfrescoArea, suffix: 'm<sup>2</sup>' }
 ].filter(({ value }) => value != 0)
