@@ -14,8 +14,6 @@ const minWidth = defineModel('minWidth', { type: Number, default: undefined })
 const maxWidth = defineModel('maxWidth', { type: Number, default: undefined })
 const minLength = defineModel('minLength', { type: Number, default: undefined })
 const maxLength = defineModel('maxLength', { type: Number, default: undefined })
-// const front = defineModel('front', { type: Boolean, default: undefined })
-// const back = defineModel('back', { type: Boolean, default: undefined })
 
 const props = defineProps<{
   floorplanTypes: FloorplanType[]
@@ -180,15 +178,6 @@ const orderByOptions = [
                 </div>
               </div>
             </v-col>
-            <!-- <v-col cols="12" sm="4" md="3" xl="2" class="py-0 d-none">
-              <div class="d-flex flex-column">
-                <div class="pb-2">Master Suite Location</div>
-                <div class="d-flex flex-row">
-                  <v-checkbox label="Front" v-model="front" @click="onClickFront"></v-checkbox>
-                  <v-checkbox label="Back" v-model="back" @click="onClickBack"></v-checkbox>
-                </div>
-              </div>
-            </v-col> -->
           </v-row>
         </v-container>
       </v-expansion-panel-text>
