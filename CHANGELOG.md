@@ -4,6 +4,15 @@ A record of changes to the project.
 
 ## [Unreleased]
 
+## [0.1.2] - 2024-08-11
+
+##### Release Name: Pine - Hotfix 1
+
+### Changed
+
+- Removed master suite location from floorplan filters
+- Filters layout adjustments
+
 ## [0.1.1] - 2024-08-07
 
 ##### Release Name: Pine - Hotfix 1
