@@ -4,6 +4,14 @@ A record of changes to the project.
 
 ## [Unreleased]
 
+## [0.1.3] - 2024-08-11
+
+##### Release Name: Pine - Hotfix 2
+
+### Changed
+
+- Removed onClickFront and onClickBack props from filters component
+
 ## [0.1.2] - 2024-08-11
 
 ##### Release Name: Pine - Hotfix 1

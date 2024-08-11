@@ -17,8 +17,6 @@ const maxLength = defineModel('maxLength', { type: Number, default: undefined })
 
 const props = defineProps<{
   floorplanTypes: FloorplanType[]
-  onClickFront: () => void
-  onClickBack: () => void
   openDefault?: number
   textFieldRounded: number
   textFieldVariant?: TextFieldVariant
